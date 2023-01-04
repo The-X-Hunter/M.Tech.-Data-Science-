@@ -32,7 +32,7 @@ int print() {
     return 0;
 }
 
-int insert(int processList[5][2], int numberOfProcesses){
+int insertA(int processList[][2], int numberOfProcesses){
     int i;
     struct Process * currProcess = NULL;
     for(i = 0; i < numberOfProcesses; i++){
@@ -40,6 +40,7 @@ int insert(int processList[5][2], int numberOfProcesses){
         currProcess -> processID = i;
         currProcess -> burstTime = processList[i][0];
         currProcess -> arrivalTime = processList[i][1];
+        currProcess -> nextProcess = NULL;
         if(i > 0){
             rear -> nextProcess = currProcess;
         } else if(i == 0){
@@ -53,7 +54,41 @@ int insert(int processList[5][2], int numberOfProcesses){
     return 0;
 }
 
-int delete(){
+int insertB(int processList[][2], int numberOfProcesses){
+    int i, j, elapsedTime = 0, timeDifference, tempElapsedTime, minProcessBurstTime;
+    struct Process * currProcess = NULL, * prevProcess = NULL, *nextProcess = NULL, *minProcess = NULL;
+    prevProcess = front;
+    for(i = 0; i < numberOfProcesses; i++){
+        currProcess = (struct Process *) malloc(sizeof(struct Process *));
+        currProcess -> processID = i;
+        currProcess -> burstTime = processList[i][0];
+        currProcess -> arrivalTime = processList[i][1];
+        currProcess -> nextProcess = NULL;
+        if(i > 0){
+            timeDifferece = (currProcess -> arrivalTime) - elapsedTime;
+            if(timeDifference < 0){
+                prevProcess = front;
+                nextProcess = front;
+                while(prevProcess != rear){
+                    timeDifference = 
+                }
+            } else {
+                rear -> nextProcess = currProcess;
+                rear = currProcess;
+                elapsedTime += timeDifference + currProcess -> burstTime;
+            }
+        } else {
+            front = currProcess;
+            rear = currProcess;
+            elapsedTime = (currProcess -> arrivalTime) + (currProcess -> burstTime);
+            minProcessBurstTime = currProcess -> burstTime;
+        }
+        currProcess = NULL;
+        free(currProcess);
+    }
+}
+
+int deleteA(){
     int minProcessBurstTime, elapsedTime = 0, minProcessArrivalTime, currProcessArrivalTime;
     struct Process * minProcess = NULL, * prevProcess = NULL, * currProcess = NULL, * nextProcess = NULL;
     while(front != NULL){
@@ -67,6 +102,7 @@ int delete(){
             minProcessArrivalTime = minProcess -> arrivalTime;
             currProcessArrivalTime = minProcessArrivalTime;
             while(currProcessArrivalTime > elapsedTime){
+                //currProcess != rear
                 if(currProcess -> nextProcess != NULL){
                     if(currProcess != minProcess){
                         prevProcess = currProcess;
@@ -87,6 +123,7 @@ int delete(){
             }
             currProcess = minProcess;
             minProcessBurstTime = minProcess -> burstTime;
+            //currProcess != rear
             while(currProcess -> nextProcess != NULL){
                 nextProcess = currProcess -> nextProcess;
                 if((nextProcess -> arrivalTime <= elapsedTime) && (nextProcess -> burstTime <= minProcessBurstTime)){
@@ -97,6 +134,10 @@ int delete(){
                 currProcess = nextProcess;
             }
             if(minProcess != front){
+                //added newly
+                if(minProcess == rear){
+                    rear = prevProcess;
+                }
                 prevProcess -> nextProcess = minProcess -> nextProcess;
             } else {
                 front = front -> nextProcess;
@@ -104,6 +145,7 @@ int delete(){
             minProcess -> nextProcess = NULL;
         } else {
             front = NULL;
+            rear = NULL;
         }
         elapsedTime += minProcess -> burstTime;
         printf("Min process: {%d, %d, %d}\n", minProcess -> processID, minProcessBurstTime, minProcess -> arrivalTime);
@@ -125,7 +167,9 @@ int main(){
         {2, 3},
         {4, 6}
     };
-    insert(processList, 5);
-    delete();
+    //insertA(processList, 5);
+    //deleteA();
+    insertB(processList, 5);
+    print();
     return 0;
 }
