@@ -38,6 +38,8 @@ int printHeap(int numberOfProcesses){
     }
 }
 
+/*
+Sub part of insertC1
 int adjust(int rootProcessIndex, int availableProcesses){
     int greaterChildProcessIndex = rootProcessIndex * 2 + 1;
     struct Process rootProcess = processQueue[rootProcessIndex];
@@ -55,6 +57,7 @@ int adjust(int rootProcessIndex, int availableProcesses){
     processQueue[greaterChildProcessIndex / 2] = rootProcess;
     return 0;
 }
+*/
 
 int insertA(int processList[], int numberOfProcesses){
     int i;
@@ -121,6 +124,8 @@ int insertC(int processList[], int numberOfProcesses){
     return 0;
 }
 
+/*
+Trying to insert in heap using different method
 int insertC1(int processList[], int numberOfProcesses){
     int i, j, parentIndex;
     for(i = 0; i < numberOfProcesses; i++){
@@ -131,6 +136,7 @@ int insertC1(int processList[], int numberOfProcesses){
     }
     return 0;
 }
+*/
 
 int deleteA(int numberOfProcesses){
     int i, j, minProcessIndex, minProcessBurstTime, elapsedTime = 0, availableProcesses = numberOfProcesses;
