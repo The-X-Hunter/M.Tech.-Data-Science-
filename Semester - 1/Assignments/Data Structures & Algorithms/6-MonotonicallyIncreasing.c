@@ -2,29 +2,33 @@
     Name: Julfikaraehmad
     Course: M.Tech. Data Science (Semester-1)
     Subject: Data Structures & Algorithms
-    Objective: 
+    Objective: Find longest monotonically increasing sequence from an array.
 */
 
 #include<stdio.h>
 
 int findMonotonicallyIncreasing(int sequence[], int numberOfElements){
-    int i, startIndex = 0, currIndex, monotonicallyIncreasingElements = 0;
-    i = 0;
-    while(i < numberOfElements){
-        currIndex = 1;
-        while((sequence[i] <= sequence[i + 1]) && (i + 1 < numberOfElements)){
-            currIndex++;
+    int i, startIndex = 0, sequenceLength, monotonicallyIncreasingElements = 0;
+    //This loop will traverse entire sequence.
+    for(i = 0; i < numberOfElements; i++){
+        //If there are not a single increasing sequence then the first element will be considered as an element of monotonically increasing sequence and length will be 1.
+        sequenceLength = 1;
+        //This loop compares adjacent elements and increase length if they are in increasing fashion.
+        while((i + 1 < numberOfElements) && (sequence[i] <= sequence[i + 1])){
+            sequenceLength++;
             i++;
         }
-        if(currIndex > monotonicallyIncreasingElements){
-            monotonicallyIncreasingElements = currIndex;
+        //If the previously found sub-sequence length is lesser than the new one then update length field and save starting index of new sub-sequence.
+        if(sequenceLength > monotonicallyIncreasingElements){
+            monotonicallyIncreasingElements = sequenceLength;
             startIndex = (i + 1) - monotonicallyIncreasingElements;
         }
-        i++;
     }
+    //Prints monotonically increasing sequence.
+    monotonicallyIncreasingElements += startIndex;
     printf("\nMonotonically increasing sub-sequence with %d element(s) is as follow:\n", monotonicallyIncreasingElements);
-    for(i = 0; i < monotonicallyIncreasingElements; i++){
-        printf("%d\t", sequence[startIndex + i]);
+    for(i = startIndex; i < monotonicallyIncreasingElements; i++){
+        printf("%d\t", sequence[i]);
     }
     printf("\n");
     return 0;
