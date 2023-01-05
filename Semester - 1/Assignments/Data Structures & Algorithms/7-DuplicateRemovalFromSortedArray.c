@@ -2,7 +2,7 @@
     Name: Julfikaraehmad
     Course: M.Tech. Data Science (Semester-1)
     Subject: Data Structures & Algorithms
-    Objective: 
+    Objective: Write an efficient program to delete duplicate elements from a sorted array.
 */
 
 #include<stdio.h>
@@ -17,15 +17,32 @@ int print(int sortedArray[], int numberOfElements){
 }
 
 int removeDuplicates(int sortedArray[], int numberOfElements){
-    int i, j, currElement;
-    for(i = 0, j = 0; (i < numberOfElements) && (j < numberOfElements); j++){
-        if(sortedArray[j] != sortedArray[j + 1]){
-            sortedArray[i++] = sortedArray[j];
+    int i, j, lastIndex;
+    lastIndex = numberOfElements - 1;
+    //This loop considers last element as a distinct one. So, it starts from 0th element and go upto second last element.
+    for(i = 0, j = 0; i < lastIndex; i++){
+        /*
+        Checks whether two adjacent elements are equal or not.
+        If they aren't then replace jth element with ith element and place j on next position.
+        */
+        if(sortedArray[i] != sortedArray[i + 1]){
+            sortedArray[j++] = sortedArray[i];
         }
     }
-    while(i < numberOfElements){
-        sortedArray[i++] = 0;
+    /*
+    j will be on position where last distinct element should be inserted.
+    Previous loop considered last element as a distinct one, so insert it on jth position.
+    */
+    sortedArray[j] = sortedArray[lastIndex];
+    //j inserted in lastIndex and then incremented.
+    lastIndex = j++;
+    //All positions after lastIndex will be assiged 0.
+    while(j < numberOfElements){
+        sortedArray[j++] = 0;
     }
+    //This prints sub-array with distinct elements.
+    printf("After removal of duplicates:\n");
+    print(sortedArray, lastIndex + 1);
     return 0;
 }
 
@@ -34,7 +51,7 @@ int main(){
     printf("Prior removal of duplicates: \n");
     print(sortedArray, 15);
     removeDuplicates(sortedArray, 15);
-    printf("After removal of duplicates:\n");
-    print(sortedArray, 15);
+    //printf("After removal of duplicates:\n");
+    //print(sortedArray, 15);
     return 0;
 }
