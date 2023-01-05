@@ -2,7 +2,7 @@
     Name: Julfikaraehmad
     Course: M.Tech. Data Science (Semester-1)
     Subject: Data Structures & Algorithms
-    Objective: 
+    Objective: Quicksort.
 */
 
 #include<stdio.h>
@@ -17,40 +17,32 @@ int print(int elements[], int numberOfElements){
     return 0;
 }
 
-/*
-int insert(int elements[], int numberOfElements){
-    printf("Size: %d\n", sizeof(elements)/sizeof(int));
-    int i, tempElements[numberOfElements];
-    for(i = 0; i < numberOfElements; i++){
-        printf("Enter element %d: ", i + 1);
-        scanf("%d", elements[i]);
-    }
-    return 0;
-}
-*/
-
 int sort(int elements[], int low, int high){
     int pivot, i, j;
-    if(low != high){
+    if(low < high){
         pivot = (low + high) / 2;
         i = low;
         j = high;
-        while(i <= j){
+        while(i < j){
+            //Finds smaller than pivot element on the right side of pivot
             while(elements[i] <= elements[pivot]){
                 i++;
             }
+            //Finds greater than pivot element on the left side of pivot
             while(elements[j] > elements[pivot]){
                 j--;
             }
-            if(i > j){
-                break;
-            } else {
+            //When i crosses j then, there are no more smaller elements on the right side of pivot, else swap greater element from left side with smaller element from right side
+            if(i < j){
                 elements[i] += elements[j];
                 elements[j] = elements[i] - elements[j];
                 elements[i] -= elements[j];
+                //If j were the index of pivot element then update pivot index by the index with which pivot is swapped
+                pivot = (j == pivot) ? i : pivot;
             }
         }
-        if((j <= high) && (j != pivot)){
+        //If j is not on pivot then it is the actual position of pivot hence swap jth element with pivot
+        if((j >= low) && (j != pivot)){
             elements[pivot] += elements[j];
             elements[j] = elements[pivot] - elements[j];
             elements[pivot] -= elements[j];
@@ -67,13 +59,6 @@ int sort(int elements[], int low, int high){
 }
 
 int main(){
-    /*
-    int numberOfElements, * elements;
-    printf("Number of elements to be sorted: ");
-    scanf("%d", &numberOfElements);
-    elements = (int *) malloc(numberOfElements * sizeof(int));
-    insert(elements, numberOfElements);
-    */
     int i, elements[10];
     for(i = 0; i < 10; i++){
         printf("Enter element %d: ", i + 1);
