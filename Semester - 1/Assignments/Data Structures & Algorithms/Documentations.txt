@@ -1,0 +1,626 @@
+Assignment-1
+Consider a processor that is to be assigned jobs in order of time (Shortest Job First).
+Maintain a priority queue.
+Perfom insert & delete operations.
+a)  Maintain a FIFO queue.
+    For deletion, select shortest job (highest priority element), delete it and re-arrang the queue by shifting elements.
+    
+    Insertion:
+        Input(s):
+            1.  List of jobs
+            2.  Total number of jobs
+        Output(s):
+            1.  Queue of jobs in the order of arrival
+        Algorithm:
+            insert(list, length){
+                for(i = 1 to length){
+                    queue[i] = list[i]
+                }
+            }
+    Deletion:
+        Input(s):
+            1.  Queue of jobs in the order of arrival
+            2.  Total number of jobs
+        Output(s):
+            1.  Empty queue/queue of jobs in descending order of burst time
+        Algorithm:
+            delete(queue, length){
+                for (i = 1 to length){
+                    minJob = queue[i]
+                    minJobIndex = i
+                    for(j = 2 to length - i){
+                        if(queue[j] < minJob){
+                            minJob = queue[j]
+                            minJobIndex = j
+                        }
+                    }
+                    for(j = 1 to length){
+                        if(j + 1 < length){
+                            queue[j] = queue[j + 1]
+                        } else {
+                            queue[j] = minJob
+                        }
+                    }
+                }
+            }
+b)  1.  Use insertion sort to maintain a sorted array.
+        For insertion, place element at proper position.
+        For deletion, delete first element and re-arrange the queue by shifting elements.
+
+        Insertion:
+            Input(s):
+                1.  List of jobs
+                2.  Total number of jobs
+            Output(s):
+                1.  Queue of jobs in ascending order of burst time
+            Algorithm:
+                insert(list, length){
+                    for(i = 1 to length){
+                        j = 1
+                        while((j < i) & (list[i] >= queue[j])){
+                            j = j + 1
+                        }
+                        index = j
+                        for(j = i to index + 1){
+                            queue[j] = queue[j - 1]
+                        }
+                        queue[index] = list[i]
+                    }
+                }
+        Deletion:
+            Input(s):
+                1.  Queue of jobs in ascending order of burst time
+                2.  Total number of jobs
+            Output(s):
+                1.  Empty queue/queue of jobs in ascending order of burst time
+            Algorithm:
+                delete(queue, length){
+                    for(i = 1 to length){
+                        minJob = queue[i]
+                        for(j = 1 to length){
+                            if(j + 1 < length){
+                                queue[j] = queue[j + 1]
+                            } else {
+                                queue[j] = minJob
+                            }
+                        }
+                    }
+                }
+    2.  Maintain queue in reverse order.
+        Delete last element.
+        
+        Insertion:
+            Input(s):
+                1.  List of jobs
+                2.  Total number of jobs
+            Output(s):
+                1.  Queue of jobs in descending order of burst time
+            Algorithm:
+                insert(list, length){
+                    for(i = 1 to length){
+                        j = length - 1
+                        while((j > length - i) & (queue[j] <= list[i])){
+                            j = j - 1
+                        }
+                        index = j
+                        for(j = length - i to index){
+                            queue[j] = queue[j + 1]
+                        }
+                        queue[index] = list[i]
+                    }
+                }
+        Deletion:
+            Input(s):
+                1.  Queue of jobs in descending order of burst time
+                2.  Total number of jobs
+            Output(s):
+                1.  Empty queue/queue of jobs in descending order of burst time
+            Algorithm:
+                delete(queue, length){
+                    for(i = length to 1){
+                        queue[i] = queue[i]
+                    }
+                }
+c)  Use heap to maintain priority queue.
+    For insertion, insert the element in a heap so that heap property is maintained.
+    For deletion, delete first element. Delete and copy last element to first position, and re-heapify to arrange the first element in heap.
+    
+    Insertion:
+        Input(s):
+            1.  List of jobs
+            2.  Total number of jobs
+        Output(s):
+            1.  Min heap of jobs
+        Algorithm:
+            heapify(heap, temp, parent, length){
+                child = parent * 2
+                while(child <= length){
+                    if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                        child = child + 1
+                    }
+                    if(temp > heap[child]){
+                        heap[child / 2] = heap[child]
+                        child = child * 2
+                    } else {
+                        break
+                    }
+                }
+                heap[child / 2] = temp
+            }
+            insert(list, length){
+                for(i = 1 to length){
+                    heap[i] = list[i]
+                }
+                for(i = length / 2 to 1){
+                    heapify(heap, heap[i], i, length)
+                }
+            }
+    Deletion:
+        Input(s):
+            1.  Min heap of jobs
+            2.  Total number of jobs
+        Output(s):
+            1.  Empty heap/max heap of jobs
+        Algorithm:
+            heapify(heap, temp, parent, length){
+                child = parent * 2
+                while(child <= length){
+                    if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                        child = child + 1
+                    }
+                    if(temp > heap[child]){
+                        heap[child / 2] = heap[child]
+                        child = child * 2
+                    } else {
+                        break
+                    }
+                }
+                heap[child / 2] = temp
+            }
+            delete(heap, length){
+                for(i = length - 1 to 1){
+                    swap(heap[1], heap[i + 1])
+                    heapify(heap, heap[1], 1, i)
+                }
+            }
+
+Assignment-2
+You have two processors.
+Maintain 2 queues.
+For insertion, insert in the queue which has smallest time interval (sum of the time of all jobs).
+For deletion, delete with option1 & option2, for processor 1 & 2, respectively.
+
+Insertion:
+    Input(s):
+        1.  List of jobs
+        2.  Total number of jobs
+    Output(s):
+        1.  Min heaps of jobs
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp > heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        insert(list, length){
+            timeInterval1 = 0
+            timeInterval2 = 0
+            heapLength1 = length / 2
+            heapLength2 = length - heapLength1
+            index1 = 0
+            index2 = 0
+            for(i = 1 to length){
+                if(index1 <= heapLength1){
+                    if((index2 <= heapLength2) & (timeInterval1 > timeInterval2)){
+                        heap2[index2] = list[i]
+                        index2 = index2 + 1
+                        timeInterval2 = timeInterval2 + list[i]
+                    } else {
+                        heap1[index1] = list[i]
+                        index1 = index1 + 1
+                        timeInterval1 = timeInterval1 + list[i]
+                    }
+                } else {
+                    heap2[index2] = list[i]
+                    index2 = index2 + 1
+                    timeInterval2 = timeInterval2 + list[i]
+                }
+            }
+            for(i = heapLength1 / 2 to 1){
+                heapify(heap1, heap1[i], i, heapLength1)
+            }
+            for(i = heapLength2 / 2 to 1){
+                heapify(heap2, heap2[i], i, heapLength2)
+            }
+        }
+Deletion:
+    Input(s):
+        1.  Two min heaps of jobs
+        2.  Total number of jobs in both the min heaps
+    Output(s):
+        1.  Empty heaps/max heaps of jobs
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp > heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        delete(heap1, heap2, heapLength1, heapLength2){
+            if(processor1 == true & processor2 = true){
+                while(heapLength1 > 0 || heapLength2 > 0){
+                    if(heapLength1 > 0){
+                        swap(heap1[1], heap1[heapLength1])
+                        heapLength1 = heapLength1 - 1
+                        heapify(heap1, heap1[1], 1, heapLength1)
+                    }
+                    if(heapLength2 > 0){
+                        swap(heap2[1], heap2[heapLength2])
+                        heapLength2 = heapLength2 - 1
+                        heapify(heap2, heap2[1], 1, heapLength2)
+                    }
+                }
+            }
+        }
+Suppose, one processor fails.
+Job from that processor have to be transferred to the processor which is in working condition.
+a)  Delete the element that is minimum from both the queues.
+
+    Input(s):
+        1.  Min heaps of jobs
+        2.  Total number of jobs in both the min heaps
+    Output(s):
+        1.  Empty heaps/max heaps of jobs
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp > heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        delete(heap1, heap2, heapLength1, heapLength2){
+            while(heapLength1 > 0 || heapLength2 > 0){
+                if(heapLenght1 > 0) {
+                    if((heapLength2 > 0) & (heap1[0] > heap2[0])){
+                        swap(heap2[1], heap2[heapLength2])
+                        heapLength2 = heapLength2 - 1
+                        heapify(heap2, heap2[1], 1, heapLength2)
+                    } else {
+                        swap(heap1[1], heap1[heapLength1])
+                        heapLength1 = heapLength1 - 1
+                        heapify(heap1, heap1[1], 1, heapLength1)
+                    }
+                } else {
+                    swap(heap2[1], heap2[heapLength2])
+                    heapLength2 = heapLength2 - 1
+                    heapify(heap2, heap2[1], 1, heapLength2)
+                }
+            }
+        }
+b)  Merge elements of both the queues and process as usual.
+
+    Input(s):
+        1.  Min heaps of jobs
+        2.  Total number of jobs in both the min heaps
+        3.  State of processor1 (true if it's in working condition)
+    Output(s):
+        1.  Empty heaps/max heaps of jobs
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp > heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        delete(heap1, heap2, heapLength1, heapLength2, processor1){
+            if(processor1 == true){
+                while(heapLength1 > 0){
+                    swap(heap1[1], heap1[heapLength1])
+                    heapLength1 = heapLength1 - 1
+                    heapify(heap1, heap1[1], 1, heapLength1)
+                }
+                while(heapLength2 > 0){
+                    swap(heap2[1], heap2[heapLength2])
+                    heapLength2 = heapLength2 - 1
+                    heapify(heap2, heap2[1], 1, heapLength2)
+                }
+            } else {
+                while(heapLength2 > 0){
+                    swap(heap2[1], heap2[heapLength2])
+                    heapLength2 = heapLength2 - 1
+                    heapify(heap2, heap2[1], 1, heapLength2)
+                }
+                while(heapLength1 > 0){
+                    swap(heap1[1], heap1[heapLength1])
+                    heapLength1 = heapLength1 - 1
+                    heapify(heap1, heap1[1], 1, heapLength1)
+                }
+            }
+        }
+c)  Delete elements from queue of failed processor and insert them one-by-one to the working one and then proceed as usual.
+
+    Input(s):
+        1.  Min heaps of jobs
+        2.  Total number of jobs in both the min heaps
+        3.  State of processor1 (true if it's in working condition)
+    Output(s):
+        1.  Empty heap/max heap of all the jobs
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp > heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        delete(heap1, heap2, heapLength1, heapLength2, processor1){
+            heapLength = heapLength1 + heapLength2
+            heap[heapLength]
+            if(processor1 == true){
+                for(i = 1 to heapLength1){
+                    heap[i] = heap1[i]
+                }
+                for(i = heapLength1 to heapLength){
+                    heap[i] = heap2[i - heapLength2]
+                }
+            } else {
+                for(i = 1 to heapLength2){
+                    heap[i] = heap2[i]
+                }
+                for(i = heapLength2 to heapLength){
+                    heap[i] = heap1[i - heapLength1]
+                }
+            }
+            for(i = heapLength / 2 to 1){
+                heapify(heap, heap[i], i, heapLength)
+            }
+            for(i = heapLength - 1 to 1){
+                swap(heap[1], heap[i + 1])
+                heapify(heap, heap[1], 1, i)
+            }
+        }
+
+Assignment-3
+Quicksort
+
+Input(s):
+    1.  Sequence of elements
+    2.  Lowest/first index of sequence
+    3.  Highest/last index of sequence
+Output(s):
+    1.  Sequence of elements in ascending order
+Algorithm:
+    quicksort(sequence, low, high){
+        if(low < high){
+            pivot = (low + high) / 2
+            i = low
+            j = high
+            while(i < j){
+                while((i <= high) & (sequence[i] <= sequence[pivot])){
+                    i = i + 1
+                }
+                while((j >= low) & (sequence[j] > sequence[pivot])){
+                    j = j - 1
+                }
+                if(i < j){
+                    swap(sequence[i], sequence[j])
+                    if(j == pivot){
+                        pivot = j
+                    }
+                } else {
+                    break
+                }
+            }
+            if((j >= low) & (j != pivot)){
+                swap(sequence[j], sequence[pivot])
+                pivot = j
+            }
+            if(low < pivot - 1){
+                quicksort(sequence, low, pivot - 1)
+            }
+            if(high > pivot + 1){
+                quicksort(sequence, pivot + 1, high)
+            }
+        }
+    }
+
+Assignment-4
+Find kth maximum element by partitioning the array.
+
+Input(s):
+    1.  Sequence of elements
+    2.  Lowest/first index of sequence
+    3.  Highest/last index of sequence
+    4.  Index k 
+Output(s):
+    1.  Sequence of elements in ascending order
+Algorithm:
+    kthMaximum(sequence, low, high, k){
+        if(low < high){
+            pivot = (low + high) / 2
+            i = low
+            j = high
+            while(i < j){
+                while((i <= high) & (sequence[i] <= sequence[pivot])){
+                    i = i + 1
+                }
+                while((j >= low) & (sequence[j] > sequence[pivot])){
+                    j = j - 1
+                }
+                if(i < j){
+                    swap(sequence[i], sequence[j])
+                    if(j == pivot){
+                        pivot = j
+                    }
+                } else {
+                    break
+                }
+            }
+            if((j >= low) & (j != pivot)){
+                swap(sequence[j], sequence[pivot])
+                pivot = j
+            }
+            if((k < pivot) & (low < pivot - 1)){
+                quicksort(sequence, low, pivot - 1)
+            }
+            if((k > pivot) & (high > pivot + 1)){
+                quicksort(sequence, pivot + 1, high)
+            }
+        }
+    }
+
+Assignment-5
+a)  Find 1st & 2nd maximum from given sequence.
+
+    Input(s):
+        1.  Sequence of elements
+        2.  Total number of elements
+    Output(s):
+        1.  Max heap of elements
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] > heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp > heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        findMaximum(sequence, length){
+            for(i = 1 to length){
+                heap[i] = sequence[i]
+            }
+            for(i = length / 2 to 1){
+                heapify(heap, heap[i], i, length)
+            }
+        }
+b)  Find 1st & 2nd minimum from given sequence.
+
+    Input(s):
+        1.  Sequence of elements
+        2.  Total number of elements
+    Output(s):
+        1.  Min heap of elements
+    Algorithm:
+        heapify(heap, temp, parent, length){
+            child = parent * 2
+            while(child <= length){
+                if((child + 1 <= length) & (heap[child] < heap[child + 1])){
+                    child = child + 1
+                }
+                if(temp < heap[child]){
+                    heap[child / 2] = heap[child]
+                    child = child * 2
+                } else {
+                    break
+                }
+            }
+            heap[child / 2] = temp
+        }
+        findMaximum(sequence, length){
+            for(i = 1 to length){
+                heap[i] = sequence[i]
+            }
+            for(i = length / 2 to 1){
+                heapify(heap, heap[i], i, length)
+            }
+        }
+
+Assignment-6
+Find longest monotonically increasing sequence from an array.
+Input(s):
+    1.  Sequence of elements
+    2.  Total number of elements
+Output(s):
+    1.  Sub sequence with monotonically increasing elements from original sequence
+Algorithm:
+    findMonotonicallyIncreasing(sequence, length){
+        startIndex = 1
+        largestSubSequenceLength = 0
+        for(i = 1 to length){
+            subSequenceLength = 1
+            while((i + 1 <= length) & (sequence[i] <= sequence[i + 1])){
+                subSequenceLength = subSequenceLength + 1
+                i = i + 1
+            }
+            if(subSequenceLength > largestSubSequenceLength){
+                largestSubSequenceLength = subSequenceLength
+                startIndex = (i + 1) - subSequenceLength
+            }
+        }
+    }
+
+Assignment-7
+Write an efficient program to delete duplicate elements from a sorted array.
+
+Input(s):
+    1.  Sequence of elements in ascending order
+    2.  Total number of elements
+Output(s):
+    1.  Sequence of distinct elements in ascending order
+Algorithm:
+    removeDuplicates(sequence, length){
+        j = 1
+        for(i = 1 to length - 1){
+            if(sequence[i] != sequence[i + 1]){
+                sequence[j] = sequence[i]
+                j = j + 1
+            }
+        }
+        sequence[j] = sequence[length]
+        for(i = j + 1 to length){
+            sequence[i] = 0
+        }
+    }
