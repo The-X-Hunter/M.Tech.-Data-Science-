@@ -25,7 +25,6 @@
 struct Process{
     int processID;
     int burstTime;
-    int arrivalTime;
 };
 
 //Array of structures
@@ -109,6 +108,13 @@ int insertB1(int processList[], int numberOfProcesses){
         while((j < i) && (processQueue[j].burstTime <= currProcessBurstTime)){
             j++;
         }
+        /*
+        for(j = 0; j < i; j++){
+            if(processQueue[j].burstTime > currProcessBurstTime){
+                break;
+            }
+        }
+        */
         currProcessIndex = j;
         //Shifts processes to right and makes a slot for new process
         for(j = i; j > currProcessIndex; j--){
@@ -120,6 +126,31 @@ int insertB1(int processList[], int numberOfProcesses){
     }
     return 0;
 }
+
+/*
+Inserts new process in ascending order to a sorted queue using insertion sort.
+Insertion sort assumes that initially there is a sorted array of length 1, with first element in it.
+int insertB1(int processList[], int numberOfProcesses){
+    int i, j, currProcessIndex, currProcessBurstTime;
+    for(i = 1; i < numberOfProcesses; i++){
+        j = 0;
+        currProcessBurstTime = processList[i];
+        //Finds the location where process can be inserted
+        while((j < i) && (processQueue[j].burstTime <= currProcessBurstTime)){
+            j++;
+        }
+        currProcessIndex = j;
+        //Shifts processes to right and makes a slot for new process
+        for(j = i; j > currProcessIndex; j--){
+            processQueue[j] = processQueue[j - 1];
+        }
+        //Insertion of new process
+        processQueue[currProcessIndex].processID = i;
+        processQueue[currProcessIndex].burstTime = currProcessBurstTime;
+    }
+    return 0;
+}
+*/
 
 /*
 //Inserts new process in descending order to a sorted queue but starts looking from starting index
@@ -157,8 +188,14 @@ int insertB2(int processList[], int numberOfProcesses){
             j--;
         }
         currProcessIndex = j;
-        //Shifts processes to left and makes slot for new process
+        /*
+        Shifts processes to left and makes slot for new process. It shifts from 0th index.
         for(j = 0; j < currProcessIndex; j++){
+            processQueue[j] = processQueue[j + 1];
+        }
+        */
+        //Shifts processes to left and makes slot for new process. It shifts from last index of sorted queue.
+        for(j = availableProcesses; j < currProcessIndex; j++){
             processQueue[j] = processQueue[j + 1];
         }
         //Insertion of new process
@@ -216,7 +253,7 @@ int insertC(int processList[], int numberOfProcesses){
     return 0;
 }
 
-//Finds out process with minimum burst time using insertion sort & shifts it to the end of the queue
+//Finds out process with minimum burst time using insertion sort & deletes it from the queue.
 int deleteA(int numberOfProcesses){
     int i, j, minProcessIndex, minProcessBurstTime, elapsedTime = 0, availableProcesses = numberOfProcesses;
     struct Process minProcess;
@@ -233,14 +270,24 @@ int deleteA(int numberOfProcesses){
                 minProcessBurstTime = minProcess.burstTime;
             }
         }
-        availableProcesses--;
         elapsedTime += minProcessBurstTime;
         printf("Min Process: {%d, %d}\n", minProcess.processID, minProcessBurstTime);
         printf("Time elapsed: %d\n**************************************\n", elapsedTime);
-        //Shifts processes to left and add the deleted process at the end of the queue
+        /*
+        It shifts all the processed and un-processesed jobs towards left and then put found minimum one at the end. Which takes more time in shifting.
+        After processing each job, final queue will be of jobs in ascending order.
+        */
         for(j = minProcessIndex; j < numberOfProcesses; j++){
             processQueue[j] = (j + 1 != numberOfProcesses ? processQueue[j + 1] : minProcess);
-        }      
+        }
+        /*
+        It shifts all the un-processesed jobs towards left and then put found minimum one at the position between un-processed and processed jobs. This takes lesser time in shifting.
+        After processing each job, final queue will be of jobs in descending order.
+        for(j = minProcessIndex; j < availableProcesses; j++){
+            processQueue[j] = (j + 1 != availableProcesses ? processQueue[j + 1] : minProcess);
+        }
+        */
+        availableProcesses--;
     }
     print(numberOfProcesses);
     printf("There are no more processes available.\n");
@@ -249,7 +296,7 @@ int deleteA(int numberOfProcesses){
 
 //Deletes process from the start of the queue
 int deleteB1(int numberOfProcesses){
-    int i, j, availableProcesses = numberOfProcesses, elapsedTime = 0;
+    int i, j, elapsedTime = 0;
     struct Process minProcess;
     for(i = 0; i < numberOfProcesses; i++){
         print(numberOfProcesses);
@@ -257,10 +304,22 @@ int deleteB1(int numberOfProcesses){
         elapsedTime += minProcess.burstTime;
         printf("Min Process: {%d, %d}\n", minProcess.processID, minProcess.burstTime);
         printf("Time elapsed: %d\n**************************************\n", elapsedTime);
-        //Shifts processes to left and add the deleted process at the end of the queue
-        for(j = 0; j < availableProcesses; j++){
+        /*
+        It shifts all the processed and un-processesed jobs towards left and then put found minimum one at the end. Which takes more time in shifting.
+        After processing each job, final queue will be of jobs in ascending order.
+        */
+        for(j = 0; j < numberOfProcesses; j++){
             processQueue[j] = (j + 1 != numberOfProcesses ? processQueue[j + 1] : minProcess);
         }
+        /*
+        It shifts all the un-processesed jobs towards left and then put found minimum one at the position between un-processed and processed jobs. This takes lesser time in shifting.
+        After processing each job, final queue will be of jobs in descending order.
+        At the time of declaration, one more variable availableProcesses = numberofProcesses should be declared and defined.
+        for(j = 0; j < availableProcesses; j++){
+            processQueue[j] = (j + 1 != availableProcesses ? processQueue[j + 1] : minProcess);
+        }
+        availableProcesses--;
+        */
     }
     print(numberOfProcesses);
     printf("There are no more processes available.\n");
@@ -329,7 +388,6 @@ int deleteC(int numberOfProcesses){
         printf("Time elapsed: %d\n**************************************\n", elapsedTime);
         tempProcess = processQueue[i];
         processQueue[i] = processQueue[0];
-        processQueue[0] = tempProcess;
         heapify(0, i, tempProcess);
     }
     return 0;

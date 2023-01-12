@@ -2,6 +2,7 @@
     Name: Julfikaraehmad
     Course: M.Tech. Data Science (Semester-1)
     Subject: Data Structures & Algorithms
+    Timestamp: January 3, 2023 14.10.05 IST
     Objective: Write an efficient program to delete duplicate elements from a sorted array.
 */
 

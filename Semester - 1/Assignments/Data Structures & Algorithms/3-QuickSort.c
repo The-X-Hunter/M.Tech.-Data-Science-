@@ -2,6 +2,7 @@
     Name: Julfikaraehmad
     Course: M.Tech. Data Science (Semester-1)
     Subject: Data Structures & Algorithms
+    Timestamp: January 3, 2023 12.00.05 IST
     Objective: Quicksort.
 */
 
@@ -48,10 +49,10 @@ int sort(int elements[], int low, int high){
             elements[pivot] -= elements[j];
             pivot = j;
         }
-        if(low < pivot){
+        if(low < pivot - 1){
             sort(elements, low, pivot - 1);
         }
-        if(high > pivot){
+        if(high > pivot + 1){
             sort(elements, pivot + 1, high);
         }
     }
