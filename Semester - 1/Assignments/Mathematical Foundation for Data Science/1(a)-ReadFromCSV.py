@@ -8,8 +8,14 @@ numberOfRows_VectorB, numberOfColumns_VectorB = vectorB.shape
 print("Matrix A\t\t\tVector B")
 for i in range(numberOfRows_MatrixA):
     for j in range(numberOfColumns_MatrixA):
-        print(matrixA[i][j], end = "\t")
+        space = ' '
+        if(matrixA[i][j] < 0):
+            space = ''
+        print(space + format(numpy.round(matrixA[i][j], 2)), end = "\t")
     print(" ", end = "\t")
     for j in range(numberOfColumns_VectorB):
-        print(vectorB[i][j], end = "\t")
+        space = ' '
+        if(vectorB[i][j] < 0):
+            space = ''
+        print(space + format(numpy.round(vectorB[i][j], 2)), end = "\t")
     print(" ")

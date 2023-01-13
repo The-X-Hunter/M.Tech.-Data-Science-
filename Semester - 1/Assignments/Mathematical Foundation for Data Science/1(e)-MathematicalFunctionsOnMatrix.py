@@ -6,7 +6,10 @@ def printFunctionData(matrix, functionMatrix, plotColor, plotMarker, plot_xlabel
     numberOfRows, numberOfColumns = functionMatrix.shape
     for i in range(numberOfRows):
         for j in range(numberOfColumns):
-            print(functionMatrix[i][j], end = "\t")
+            space = ' '
+            if(functionMatrix[i][j] < 0):
+                space = ''
+            print(space + format(numpy.round(functionMatrix[i][j], 2)), end = "\t")
         print(" ")
     pyplot.plot(matrix, functionMatrix, color = plotColor, marker = plotMarker)
     pyplot.xlabel(plot_xlabel)
@@ -33,7 +36,10 @@ numberOfRows_MatrixA, numberOfColumns_MatrixA = matrixA.shape
 print("Matrix A")
 for i in range(numberOfRows_MatrixA):
     for j in range(numberOfColumns_MatrixA):
-        print(matrixA[i][j], end = "\t")
+        space = ' '
+        if(matrixA[i][j] < 0):
+            space = ''
+        print(space + format(numpy.round(matrixA[i][j], 2)), end = "\t")
     print(" ")
 print(" ")
 getExponentialFunctionData(matrixA)
