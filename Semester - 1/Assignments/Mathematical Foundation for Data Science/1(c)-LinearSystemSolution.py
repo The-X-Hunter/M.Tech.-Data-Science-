@@ -1,6 +1,7 @@
 import pandas as pandas
 import numpy as numpy
 from scipy.linalg import solve
+from numpy.linalg import matrix_rank
 
 matrixA = numpy.array(pandas.read_csv("MatrixA.csv", sep =',', header = None, index_col = False))#.astype("float")
 numberOfRows_MatrixA, numberOfColumns_MatrixA = matrixA.shape
@@ -29,3 +30,14 @@ for i in range(numberOfColumns_MatrixA):
         if(vectorX[i][j] < 0):
             space = ''
         print(space + format(numpy.round(vectorX[i][j], 2)))
+print(" ")
+rankOfMatrixA = matrix_rank(matrixA);
+augmentedMatrix = numpy.hstack((matrixA, vectorB))
+rankOfAugmentedMatrix = matrix_rank(augmentedMatrix)
+if(rankOfMatrixA == rankOfAugmentedMatrix):
+    if(rankOfMatrixA == numberOfColumns_MatrixA):
+        print("The system has a unique solution.")
+    else:
+        print("The system has infinite-many solutions.")
+else:
+    print("The system is inconsistent.")
