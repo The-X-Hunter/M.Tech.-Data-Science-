@@ -39,7 +39,7 @@ int kthMaximum(int elements[], int low, int high, int k){
                 elements[i] += elements[j];
                 elements[j] = elements[i] - elements[j];
                 elements[i] -= elements[j];
-                //If j were the index of pivot element then update pivot index by the index with which pivot is swapped
+                //If j was the index of pivot element then update pivot index by the index with which pivot is swapped
                 pivot = (j == pivot) ? i : pivot;
             }
         }
@@ -61,14 +61,40 @@ int kthMaximum(int elements[], int low, int high, int k){
 }
 
 int main(){
-    int i, elements[10], k = 6;
-    for(i = 0; i < 10; i++){
+    int i, elements[10], numberOfElements = 10, k = 6;
+    for(i = 0; i < numberOfElements; i++){
         printf("Enter element %d: ", i + 1);
         scanf("%d", &elements[i]);
     }
     printf("Unsorted elements:\n");
-    print(elements, 10);
-    kthMaximum(elements, 0, 9, k - 1);
-    printf("Element at %d: %d\n", k, elements[k - 1]);
+    print(elements, numberOfElements);
+    /*
+    This will find and print kth minimum element. Because it checks from starting of the array.
+    kthMaximum(elements, 0, numberOfElements, k - 1);
+    printf("%d ", k);
+    if(k == 0 || k > 3){
+        printf("th");
+    } else if(k == 3){
+        printf("rd");
+    } else if(k == 2){
+        printf("nd");
+    } else {
+        printf("st");
+    }
+    printf(" minimum element: %d\n", elements[k - 1]);
+    */
+    //This will find and print kth maximum element. Because it checks from ending of the array.
+    kthMaximum(elements, 0, numberOfElements, numberOfElements - k);
+    printf("%d", k);
+    if(k == 0 || k > 3){
+        printf("th");
+    } else if(k == 3){
+        printf("rd");
+    } else if(k == 2){
+        printf("nd");
+    } else {
+        printf("st");
+    }
+    printf(" maximum element: %d\n", elements[numberOfElements - k]);
     return 0;
 }

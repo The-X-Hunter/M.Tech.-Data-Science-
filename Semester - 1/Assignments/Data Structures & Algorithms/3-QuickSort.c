@@ -38,7 +38,7 @@ int sort(int elements[], int low, int high){
                 elements[i] += elements[j];
                 elements[j] = elements[i] - elements[j];
                 elements[i] -= elements[j];
-                //If j were the index of pivot element then update pivot index by the index with which pivot is swapped
+                //If j was the index of pivot element then update pivot index by the index with which pivot is swapped
                 pivot = (j == pivot) ? i : pivot;
             }
         }
@@ -60,15 +60,15 @@ int sort(int elements[], int low, int high){
 }
 
 int main(){
-    int i, elements[10];
-    for(i = 0; i < 10; i++){
+    int i, elements[10], numberOfElements = 10;
+    for(i = 0; i < numberOfElements; i++){
         printf("Enter element %d: ", i + 1);
         scanf("%d", &elements[i]);
     }
     printf("Unsorted elements:\n");
-    print(elements, 10);
-    sort(elements, 0, 9);
+    print(elements, numberOfElements);
+    sort(elements, 0, numberOfElements - 1);
     printf("Sorted elements:\n");
-    print(elements, 10);
+    print(elements, numberOfElements);
     return 0;
 }
