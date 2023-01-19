@@ -152,7 +152,8 @@ int findMinimum(int sequence[], int numberOfElements){
     printHeap(minHeap, numberOfElements);
     */
     print(numberOfElements);
-    printf("So the 1st & 2nd minimums are %d & %d, respectively.\n", minHeap[0], minHeap[1]);
+    //1st minimum will be on 0th index or root of the heap but 2nd can be any of its children because order doesn't matter in heap.
+    printf("The 1st & 2nd minimums are %d & %d, respectively.\n", minHeap[0], (minHeap[1] <= minHeap[2] ? minHeap[1] : minHeap[2]));
     printf("******************************************\n");
     return 0;
 }
@@ -199,13 +200,47 @@ int findMaximum(int sequence[], int numberOfElements){
     printHeap(maxHeap, numberOfElements);
     */
     print(numberOfElements);
-    printf("So the 1st & 2nd maximums are %d & %d, respectively.\n", maxHeap[0], maxHeap[1]);
+    //1st maximum will be on 0th index or root of the heap but 2nd can be any of its children because order doesn't matter in heap.
+    printf("The 1st & 2nd maximums are %d & %d, respectively.\n", maxHeap[0], (maxHeap[1] >= maxHeap[2] ? maxHeap[1] : maxHeap[2]));
     printf("******************************************\n");
     return 0;
 }
 
 int main(){
-    findMinimum(sequence, 5);
-    findMaximum(sequence, 5);
+    int i, currElement, firstMinimum, secondMinimum, secondMaximum, firstMaximum, numberOfElements = 5;
+    findMinimum(sequence, numberOfElements);
+    findMaximum(sequence, numberOfElements);
+    //Following code is for finding 1st, 2nd maximums & minimums without any sorting and also with a single loop.
+    print(numberOfElements);
+    //Compares 1st & 2nd element and assign appropriate pointer to them.
+    if(sequence[0] <= sequence[1]){
+        firstMinimum = sequence[0];
+        secondMinimum = sequence[1];
+        secondMaximum = sequence[0];
+        firstMaximum = sequence[1];
+    } else {
+        firstMinimum = sequence[1];
+        secondMinimum = sequence[0];
+        secondMaximum = sequence[1];
+        firstMaximum = sequence[0];
+    }
+    //Keeps comparing all the elements of sequence with values pointed by the pointers and updates pointers when neccessary.
+    for(i = 2; i < numberOfElements; i++){
+        currElement = sequence[i];
+        if(currElement > firstMaximum){
+            secondMaximum = firstMaximum;
+            firstMaximum = currElement;
+        } else if(currElement > secondMaximum){
+            secondMaximum = currElement;
+        }
+        if(currElement < firstMinimum){
+            secondMinimum = firstMinimum;
+            firstMinimum = currElement;
+        } else if(currElement < secondMinimum){
+            secondMinimum = currElement;
+        }
+    }
+    printf("The 1st & 2nd minimums are %d & %d, respectively.\n", firstMinimum, secondMinimum);
+    printf("The 1st & 2nd maximums are %d & %d, respectively.\n", firstMaximum, secondMaximum);
     return 0;
 }

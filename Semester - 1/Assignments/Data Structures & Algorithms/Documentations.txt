@@ -470,7 +470,7 @@ Algorithm:
     }
 
 Assignment-4
-Find kth maximum element by partitioning the array.
+Find kth-maximum element by partitioning the array.
 
 Input(s):
     1.  Sequence of elements
@@ -575,6 +575,42 @@ b)  Find 1st & 2nd minimum from given sequence.
             }
             for(i = length / 2 to 1){
                 heapify(heap, heap[i], i, length)
+            }
+        }
+(c) Find 1st, 2nd maximums & minimums with single loop & without sorting.
+
+    Input(s):
+        1.  Sequence of elements
+        2.  Total number of elements
+    Output(s):
+        1.  Min heap of elements
+    Algorithm:
+        findMin_Max(sequence, length){
+            if(sequence[1] <= sequence[2]){
+                firstMinimum = sequence[1];
+                secondMinimum = sequence[2];
+                secondMaximum = sequence[1];
+                firstMaximum = sequence[2];
+            } else {
+                firstMinimum = sequence[2];
+                secondMinimum = sequence[1];
+                secondMaximum = sequence[2];
+                firstMaximum = sequence[1];
+            }
+            for(i = 3 to length){
+                currElement = sequence[i];
+                if(currElement > firstMaximum){
+                    secondMaximum = firstMaximum
+                    firstMaximum = currElement
+                } else if(currElement > secondMaximum){
+                    secondMaximum = currElement
+                }
+                if(currElement < firstMinimum){
+                    secondMinimum = firstMinimum
+                    firstMinimum = currElement
+                } else if(currElement < secondMinimum){
+                    secondMinimum = currElement
+                }
             }
         }
 
