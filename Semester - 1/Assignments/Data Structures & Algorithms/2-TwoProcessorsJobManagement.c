@@ -73,11 +73,13 @@ int heapify(struct Process processQueue[], struct Process tempProcess, int paren
         Checks whether right child exists or not and gets the index of smallest child among all the children of current parent node.
         Gets the index of smallest child among all the children of current parent node.
         */
-        printf("LChild: {%d, %d},", processQueue[childProcessIndex].processID, processQueue[childProcessIndex].burstTime);
+        //printf("LChild: {%d, %d},", processQueue[childProcessIndex].processID, processQueue[childProcessIndex].burstTime);
+        /*
         if(childProcessIndex + 1 < queueSize){
             printf("RChild: {%d, %d},", processQueue[childProcessIndex + 1].processID, processQueue[childProcessIndex + 1].burstTime);
         }
         printf("Parent: {%d, %d}\n", tempProcess.processID, tempProcess.burstTime);
+        */
         if((childProcessIndex + 1 < queueSize) && (processQueue[childProcessIndex].burstTime > processQueue[childProcessIndex + 1].burstTime)){
             childProcessIndex++;
         }
@@ -168,24 +170,26 @@ int deleteFromQueue1(){
     if(queueSize1 > 0) {
         elapsedTime1 += deleteHeap(processQueue1, queueSize1--);
         //If both the processors are working then show the time only associated to that processor.
-        if(processor1 && processor2){
-            printf("Time elapsed: %d\n", elapsedTime1);
+        if((processor1 && processor2) && (numberOfQueues == 1)){
+            printf("Time elapsed (Processor1): %d\n", elapsedTime1);
         }
     } else {
         printf("Queue1 is empty.\n");
     }
+    printf("-----------------------------\n");
     //If a processor is working on more than one heaps, the print the other also.
     if(numberOfQueues > 1){
-        printf("-----------------------------\nQueue2:\n");
+        printf("Queue2:\n");
         if(queueSize2 > 0) {
             printHeap(processQueue2, queueSize2);
         } else {
             printf("Queue2 is empty.\n");
         }
+        printf("-----------------------------\n");
     }
     //If only a single processor running then print overall time consumed.
     if(!processor1 || !processor2){
-        printf("-----------------------------\nTime elapsed: %d\n**************************************\n", elapsedTime1 + elapsedTime2);
+        printf("Time elapsed: %d\n**************************************\n", elapsedTime1 + elapsedTime2);
     }
     return 0;
 }
@@ -207,15 +211,16 @@ int deleteFromQueue2(){
     if(queueSize2 > 0){
         elapsedTime2 += deleteHeap(processQueue2, queueSize2--);
         //If both the processors are working then show the time only associated to that processor.
-        if(processor1 && processor2){
-            printf("Time elapsed: %d\n", elapsedTime2);
+        if((processor1 && processor2) && (numberOfQueues == 1)){
+            printf("Time elapsed (Processor2): %d\n", elapsedTime2);
         }
     } else {
         printf("Queue2 is empty.\n");
     }
+    printf("-----------------------------\n");
     //If only a single processor running then print overall time consumed.
     if(!processor1 || !processor2){
-        printf("-----------------------------\nTime elapsed: %d\n**************************************\n", elapsedTime1 + elapsedTime2);
+        printf("Time elapsed: %d\n**************************************\n", elapsedTime1 + elapsedTime2);
     }
 }
 
@@ -300,7 +305,7 @@ int deleteC(){
             deleteFromQueue1();
         }
     } else {
-        //Processes from queue1 are being inserted in new bigger queue.
+        //Processes from queue2 are being inserted in new bigger queue.
         for(i = 0; i < queueSize2; i++){
             processQueue[i] = processQueue2[i];
         }
@@ -308,9 +313,9 @@ int deleteC(){
         * processQueue2 = * processQueue;
         //Processes from queue1 are being inserted in queue2.
         for(i = queueSize2, j = 0; i < numberOfProcesses && j < queueSize1; i++, j++){
-            printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
+            //printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
             processQueue2[i] = processQueue1[j];
-            printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
+            //printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
             /*
             If you wish, you can delete processes from queue1. Which is of no use now.
             deleteHeap(processQueue1, queueSize1--);
@@ -318,15 +323,15 @@ int deleteC(){
         }
         queueSize1 = 0;
         queueSize2 = numberOfProcesses;
-        printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
+        //printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
         //Converts queue2 into min-heap.
         heapSort(processQueue2, queueSize2);
-        printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
+        //printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
         //Deletes processes from queue2.
         for(i = queueSize2 - 1; i >= 0; i--){
-            printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
+            //printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
             deleteFromQueue2();
-            printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
+            //printf("Time1: %d, %d, Time2: %d, %d\n", elapsedTime1, time1, elapsedTime2, time2);
         }
     }
     return 0;
@@ -351,18 +356,35 @@ int delete(int numberOfProcesses){
             }
         } while(choice < 1 || choice > 3);
         printf("\n");
-        //If both the processors are working, then remove minimum from both of them simultaniously.
         if(processor1 && processor2){
+            /*
+            //If both the processors are working, then remove minimum from both of them simultaniously.
             numberOfQueues = 1;
             deleteFromQueue1();
-            printf("-----------------------------\n");
             deleteFromQueue2();
+            printf("Time elapsed = %d\n", (elapsedTime1 >= elapsedTime2 ? elapsedTime1 : elapsedTime2));
             printf("**************************************\n");
+            */
+            //If both the processors are working, then ask user from where to remove & remove minimum for that processor.
+            numberOfQueues = 2;
+            do {
+                printf("Select processor for job processing:\n1. Processor1\n2. Processor2\n\nEnter your choice here: ");
+                scanf("%d", &choice);
+                switch(choice){
+                    case 1:     deleteFromQueue1();
+                                break;
+                    case 2:     deleteFromQueue2();
+                                break;
+                    default:    printf("Given choice is invalid, please choose again.\n\n");
+                                break;
+                }
+            } while(choice < 1 || choice > 2);
+            printf("Time elapsed: %d\n**************************************\n", elapsedTime1 + elapsedTime2);
         } else {
             /*
             Till now both the processors were working simultaniously but now one of them stopped working.
             So, elapsed time will be the maximum of the time spent by both the processors.
-            */
+            *
             if(processor1){
                 elapsedTime1 = elapsedTime1 >= elapsedTime2 ? elapsedTime1 : elapsedTime2;
                 elapsedTime2 = 0;
@@ -370,6 +392,7 @@ int delete(int numberOfProcesses){
                 elapsedTime2 = elapsedTime2 >= elapsedTime1 ? elapsedTime2 : elapsedTime1;
                 elapsedTime1 = 0;
             }
+            */
             do {
                 printf("One of the two processeors is failed.\nNow, how single processor is going to process both the queues?\n1. Delete the element that is minimum from both the queues.\n2. Merge elements of both the queues and process as usual.\n3. Delete elements from queue of failed processor and insert them one-by-one to the working one and then proceed as usual.\n\nEnter your choice here: ");
                 scanf("%d", &choice);
