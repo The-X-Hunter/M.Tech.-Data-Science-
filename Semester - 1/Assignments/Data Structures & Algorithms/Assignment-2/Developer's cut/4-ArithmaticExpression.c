@@ -1,6 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+/*
+This structure defines a node of binary tree.
+Left part of node can have a subtree or an operand. isLeftSubTree is a flag to indicate what is actually stored in union.
+Same goes with right part.
+*/
 struct Expression{
     union{
         struct Expression * leftSubTree;
@@ -15,24 +20,13 @@ struct Expression{
     };
 };
 
+//Stores how many number of terms an arithmaic expression has.
 int numberOfTerms;
-struct Expression * expression, * rootNode;
 
-int printArithmaticExpression(){
-    int i;
-    struct Expression * prevExpression, * currExpression;
-    prevExpression = rootNode;
-    currExpression = rootNode;
-    while(i < numberOfTerms) {
-        if(currExpression -> leftSubTree != NULL){
-            prevExpression = currExpression;
-            currExpression = currExpression -> leftSubTree;
-        }
-    }
-    printf("Print\n");
-    return 0;
-}
+//Pointer to root of the binary tree.
+struct Expression * rootNode;
 
+//Print arithmatic expression using inorder tree traversal. (Left-Root-Right format)
 int inorderTraversal(struct Expression * parent){
     if(parent -> isLeftSubTree == 1){
         inorderTraversal(parent -> leftSubTree);
@@ -48,38 +42,43 @@ int inorderTraversal(struct Expression * parent){
     return 0;
 }
 
+//Read & store artithmatic expression.
 int readArithmaticExpression(){
     int i, operand;
     char operator, prevOperator;
-    struct Expression * prevExpression;
+    struct Expression * expression, * prevExpression;
+    //Ask user for total number of terms.
     printf("How many number of terms your expression has?: ");
     scanf("%d", &numberOfTerms);
     for(i = 0; i < numberOfTerms; i++){
+        //Ask user for left operand of the operator.
         printf("Enter operand: ");
         scanf("%d", &operand);
+        //If it is not last term then go for operator part.
         if(i + 1 < numberOfTerms){
+            //Ask user for operator.
             do {
                 printf("Enter operator: ");
                 scanf(" %c", &operator);
             } while(operator != '+' && operator != '-' && operator != '*' && operator != '/');
+            //Create new node for recently read operator.
             expression = (struct Expression *) malloc(sizeof(struct Expression *));
+            expression -> operator = operator;
+            //If there are already some nodes in tree.
             if(i > 0){
+                //Fetch previous operator from previous node.
                 prevOperator = prevExpression -> operator;
+                //Put it in switch case.
                 switch(prevOperator){
-                    case '+':
-                    case '-':   expression -> operator = operator;
+                    case '+':   
+                    case '-':   //Append new node with help of following rules.
+                                //prev -> - & curr -> - then new node will become parent of previous
+                                //prev -> - & curr -> + then new node will become parent of previous
+                                //prev -> + & curr -> - then new node can be either parent or right child of previous node
+                                //prev -> + & curr -> + then new node can be either parent or right child of previous node
+                                //prev -> +, - & curr -> *, / then new node will become right child of previous node 
                                 if(operator == '+' || operator == '-'){
-                                    /*
-                                    if(prevExpression -> leftSubTree != NULL){
-                                        prevExpression -> rightSubTree = expression;
-                                        expression -> leftOperand = operand;
-                                    } else {
-                                        prevExpression -> rightOperand = operand;
-                                        expression -> leftSubTree = prevExpression;
-                                        rootNode = expression;
-                                    }
-                                    */
-                                    if(prevExpression -> isLeftSubTree == 1){
+                                    if(prevOperator == '+' && prevExpression -> isLeftSubTree == 1){
                                         prevExpression -> rightSubTree = expression;
                                         prevExpression -> isRightSubTree = 1;
                                         expression -> leftOperand = operand;
@@ -92,12 +91,6 @@ int readArithmaticExpression(){
                                         rootNode = expression;
                                     }
                                 } else {
-                                    /*
-                                    expression -> operator = operator;
-                                    expression -> leftOperand = operand;
-                                    prevExpression -> rightSubTree = expression;
-                                    */
-                                    expression -> operator = operator;
                                     expression -> leftOperand = operand;
                                     expression -> isLeftSubTree = 0;
                                     prevExpression -> rightSubTree = expression;
@@ -105,29 +98,15 @@ int readArithmaticExpression(){
                                 }
                                 break;
                     case '*':
-                    case '/':   expression -> operator = operator;
+                    case '/':   //prev -> *, / & curr -> +, - then new node will become parent of previous node
+                                //prev -> *, / & curr -> *, / then new node can be either parent or right child of previous node
                                 if(operator == '+' || operator == '-'){
-                                    /*
-                                    prevExpression -> rightOperand = operand;
-                                    expression -> leftSubTree = prevExpression;
-                                    rootNode = expression;
-                                    */
                                     prevExpression -> rightOperand = operand;
                                     prevExpression -> isRightSubTree = 0;
                                     expression -> leftSubTree = prevExpression;
                                     expression -> isLeftSubTree = 1;
                                     rootNode = expression;
                                 } else {
-                                    /*
-                                    if(prevExpression -> leftSubTree != NULL){
-                                        prevExpression -> rightSubTree = expression;
-                                        expression -> leftOperand = operand;
-                                    } else {
-                                        prevExpression -> rightOperand = operand;
-                                        expression -> leftSubTree = prevExpression;
-                                        rootNode = expression;
-                                    }
-                                    */
                                     if(prevExpression -> isLeftSubTree == 1){
                                         prevExpression -> rightSubTree = expression;
                                         prevExpression -> isRightSubTree = 1;
@@ -144,13 +123,15 @@ int readArithmaticExpression(){
                                 break;
                 }
             } else {
-                expression -> operator = operator;
+                //If it is the first node then enter the operand left to its operator and mark it as root node of tree.
                 expression -> leftOperand = operand;
                 expression -> isLeftSubTree = 0;
                 rootNode = expression;
             }
+            //curr node will be previous node for next iteration.
             prevExpression = expression;
         } else {
+            //If it is last term then enter operand right to previous operator.
             prevExpression -> rightOperand = operand;
             prevExpression -> isRightSubTree = 0;
         }
@@ -160,7 +141,6 @@ int readArithmaticExpression(){
 
 int main(){
     readArithmaticExpression();
-    //printArithmaticExpression();
     inorderTraversal(rootNode);
     printf("\n");
     return 0;
