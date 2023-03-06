@@ -156,12 +156,14 @@ int quickSort(struct Operation operation[], int low, int high, int * numberOfTer
 int sortPolynomial(struct Operation operation[], int * numberOfTerms){
     int i, j, tempNumberOfTerms;
     tempNumberOfTerms = * numberOfTerms;
+    /*
     for(i = 1; i < tempNumberOfTerms; i++){
         if(operation[i - 1].operator == '-'){
             operation[i - 1].operator = '+';
             operation[i].co_officient = -operation[i].co_officient;
         }
     }
+    */
     quickSort(operation, 0, tempNumberOfTerms - 1, numberOfTerms);
     tempNumberOfTerms = * numberOfTerms;
     for(i = 0; i < tempNumberOfTerms; i++){
@@ -187,11 +189,14 @@ struct Operation * readPolynomial(int * numberOfTerms){
     for(i = 0; i < tempNumberOfTerms; i++){
         printf("Enter co-officient for this term: ");
         scanf("%d", &(operation[i].co_officient));
+        if(i > 0 && operation[i - 1].operator == '-'){
+            operation[i].co_officient = -operation[i].co_officient;
+            operation[i - 1].operator = '+';
+        }
         printf("Enter variable: ");
         scanf(" %c", &(operation[i].variable));
         printf("Enter power of this term: ");
         scanf("%d", &(operation[i].power));
-        //printf("%d * %c ^ %d\n", operation[i].co_officient, operation[i].variable, operation[i].power);
         if(i + 1 < tempNumberOfTerms){
             do {
                 printf("Enter operator(+ or -): ");
