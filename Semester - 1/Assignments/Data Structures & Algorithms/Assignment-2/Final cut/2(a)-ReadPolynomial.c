@@ -69,9 +69,11 @@ int sortPolynomial(struct Operation * operationHead){
                     unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
                     unsortedOperation -> nextOperation = NULL;
                     sortedOperationTraverser -> nextOperation -> co_officient = (unsortedOperation -> co_officient) + (sortedOperationTraverser -> nextOperation -> co_officient);
+                    free(unsortedOperation);
                     //If sum of co-officients become 0 then remove that element from sorted parts
                     if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
                         sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
+                        free(sortedOperationTraverser -> nextOperation);
                     }
                 }
             } else {

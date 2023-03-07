@@ -1,3 +1,10 @@
+/*
+    Name: Julfikaraehmad
+    Course: M.Tech. Data Science (Semester-1)
+    Subject: Data Structures & Algorithms
+    Objective: Write a program to evaluate an arithmatic expression using binary tree
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -25,6 +32,34 @@ int numberOfTerms;
 
 //Pointer to root of the binary tree.
 struct Expression * rootNode;
+
+//Evaluate arithmatic expression using postorder tree traversal. (Left-Right-Root format)
+int postorderTraversal(struct Expression * parent){
+    int leftOperand, rightOperand;
+    leftOperand = 0;
+    rightOperand = 0;
+    if(parent -> isLeftSubTree == 1){
+        leftOperand = postorderTraversal(parent -> leftSubTree);
+    } else {
+        leftOperand = parent -> leftOperand;
+    }
+    if(parent -> isRightSubTree == 1){
+        rightOperand = postorderTraversal(parent -> rightSubTree);
+    } else {
+        rightOperand = parent -> rightOperand;
+    }
+    switch(parent -> operator){
+        case '+':   leftOperand = leftOperand + rightOperand;
+                    break;
+        case '-':   leftOperand = leftOperand - rightOperand;
+                    break;
+        case '*':   leftOperand = leftOperand * rightOperand;
+                    break;
+        case '/':   leftOperand = leftOperand / rightOperand;
+                    break;
+    }
+    return leftOperand;
+}
 
 //Print arithmatic expression using inorder tree traversal. (Left-Root-Right format)
 int inorderTraversal(struct Expression * parent){
@@ -142,6 +177,7 @@ int readArithmaticExpression(){
 int main(){
     readArithmaticExpression();
     inorderTraversal(rootNode);
-    printf("\n");
+    printf("\t = \t");
+    printf("%d\n", postorderTraversal(rootNode));
     return 0;
 }
