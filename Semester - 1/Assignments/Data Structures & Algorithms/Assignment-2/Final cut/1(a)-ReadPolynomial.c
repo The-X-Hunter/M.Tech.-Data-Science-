@@ -1,3 +1,11 @@
+/*
+    Name: Julfikaraehmad
+    Course: M.Tech. Data Science (Semester-1)
+    Subject: Data Structures & Algorithms
+    Objective:
+        a)  Write a program using arrays to read & print a polynomial.
+        b)  Write a program to add & multiply two polynomials.
+*/
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -18,7 +26,7 @@ struct Operation * operation1;
 int printPolynomial(struct Operation operation[], int numberOfTerms){
     int i;
     for(i = 0; i < numberOfTerms; i++){
-        printf("(%d * %c) ^ %d", operation[i].co_officient, 'x', operation[i].power);
+        printf("((%d * x) ^ %d)", operation[i].co_officient, operation[i].power);
         if(i + 1 < numberOfTerms){
             printf(" %c ", operation[i].operator);
         }
