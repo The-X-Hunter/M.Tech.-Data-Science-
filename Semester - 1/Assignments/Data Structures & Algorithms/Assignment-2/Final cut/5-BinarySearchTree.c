@@ -59,7 +59,7 @@ int insert(struct Element ** rootNode, int key){
     prevElem = search(* rootNode, key);
     currElem = (struct Element *) malloc(sizeof(struct Element));
     currElem -> key = key;
-    currElem -> leftSubTree = NULL:
+    currElem -> leftSubTree = NULL;
     //If parent is NULL then tree is empty, make the node root
     if(prevElem == NULL){
         * rootNode = currElem;

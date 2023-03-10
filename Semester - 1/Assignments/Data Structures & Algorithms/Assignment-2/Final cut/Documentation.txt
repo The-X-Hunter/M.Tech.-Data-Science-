@@ -42,7 +42,7 @@ a)  Write a program using arrays to read & print a polynomial.
                     while(i < high){
                         if(operation[i].power >= pivotTermPower){
                             if(operation[i].power > pivotTermPower){
-                                swap(operation[i], operation[j]);
+                                swap(operation[i], operation[j])
                                 j = j + 1
                             } else {
                                 if(i > 0){
@@ -217,26 +217,26 @@ a)  Write a program using linked list with header node & sentinel value to read 
                         }
                         if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
                             if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
-                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
-                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;
-                                sortedOperationTraverser -> nextOperation = unsortedOperation;
-                                unsortedOperation -> operator = '+';
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation
+                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation
+                                sortedOperationTraverser -> nextOperation = unsortedOperation
+                                unsortedOperation -> operator = '+'
                             } else {
-                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
-                                unsortedOperation -> nextOperation = NULL;
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation
+                                unsortedOperation -> nextOperation = NULL
                                 sortedOperationTraverser -> nextOperation -> co_officient = unsortedOperation -> co_officient + sortedOperationTraverser -> nextOperation -> co_officient
-                                free(unsortedOperation);
+                                free(unsortedOperation)
                                 if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
-                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
-                                    free(sortedOperationTraverser -> nextOperation);
+                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation
+                                    free(sortedOperationTraverser -> nextOperation)
                                 }
                             }
                         } else {
-                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation;
+                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation
                         }
-                        unsortedOperation = unsortedOperationTraverser -> nextOperation;
+                        unsortedOperation = unsortedOperationTraverser -> nextOperation
                     }
-                    unsortedOperationTraverser -> nextOperation = NULL;
+                    unsortedOperationTraverser -> nextOperation = NULL
                 }
             }
 
@@ -255,30 +255,30 @@ b)  Write another program to insert & delete a term of polynomial.
                     while(unsortedOperation != NULL){
                         sortedOperationTraverser = operationHead
                         while(sortedOperationTraverser -> nextOperation -> power > unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation) {
-                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation;
+                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation
                         }
                         if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
                             if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
-                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
-                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;
-                                sortedOperationTraverser -> nextOperation = unsortedOperation;
-                                unsortedOperation -> operator = '+';
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation
+                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation
+                                sortedOperationTraverser -> nextOperation = unsortedOperation
+                                unsortedOperation -> operator = '+'
                             } else {
-                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
-                                unsortedOperation -> nextOperation = NULL;
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation
+                                unsortedOperation -> nextOperation = NULL
                                 sortedOperationTraverser -> nextOperation -> co_officient = unsortedOperation -> co_officient + sortedOperationTraverser -> nextOperation -> co_officient
-                                free(unsortedOperation);
+                                free(unsortedOperation)
                                 if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
-                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
-                                    free(sortedOperationTraverser -> nextOperation);
+                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation
+                                    free(sortedOperationTraverser -> nextOperation)
                                 }
                             }
                         } else {
-                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation;
+                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation
                         }
-                        unsortedOperation = unsortedOperationTraverser -> nextOperation;
+                        unsortedOperation = unsortedOperationTraverser -> nextOperation
                     }
-                    unsortedOperationTraverser -> nextOperation = NULL;
+                    unsortedOperationTraverser -> nextOperation = NULL
                 }
             }
             appendPolynomial(operationHead){
@@ -287,37 +287,37 @@ b)  Write another program to insert & delete a term of polynomial.
                 prevOperation = operationHead
                 operation = operationHead -> nextOperation
                 while(operation != NULL){
-                    prevOperation = operation;
-                    operation = operation -> nextOperation;
+                    prevOperation = operation
+                    operation = operation -> nextOperation
                 }
                 do {
                     read(operation -> co_officient) //This line indicate user input
                     if(operation -> co_officient != 0){
                         if(prevOperation != operationHead && prevOperation -> operator == '-'){
-                            operation -> co_officient = -(operation -> co_officient);
-                            prevOperation -> operator = '+';
+                            operation -> co_officient = -(operation -> co_officient)
+                            prevOperation -> operator = '+'
                         }
                         read(operation -> power) //This line indicate user input
                         do {
                             read(flag) //This line indicate user input
-                        } while(flag != 0 && flag != 1);
+                        } while(flag != 0 && flag != 1)
                         if(flag == 1){
                             do {
                                 read(operation -> operator) //This line indicate user input
-                            } while(operation -> operator != '+' && operation -> operator != '-');
+                            } while(operation -> operator != '+' && operation -> operator != '-')
                         } else {
-                            operation -> operator = '\0';
+                            operation -> operator = '\0'
                         }
-                        prevOperation -> nextOperation = operation;
-                        prevOperation = operation;
-                        isAppended = 1;
+                        prevOperation -> nextOperation = operation
+                        prevOperation = operation
+                        isAppended = 1
                     } else {
-                        flag = 0;
-                        prevOperation -> operator = '\0';
+                        flag = 0
+                        prevOperation -> operator = '\0'
                     }
-                } while(flag == 1);
+                } while(flag == 1)
                 if(isAppended == 1){
-                   sortPolynomial(operationHead);
+                   sortPolynomial(operationHead)
                 }
             }
     Delete Existing Term:
@@ -327,22 +327,22 @@ b)  Write another program to insert & delete a term of polynomial.
             1.  Updated polynomial expression
         Algorithm:
             deletePolynomialTerm(operationHead){
-                flag = 0;
-                isAppended = 0;
+                flag = 0
+                isAppended = 0
                 if(operationHead -> nextOperation != NULL){
                     read(co_officient) //This line indicate user input
                     if(co_officient != 0){
                         read(power) //This line indicate user input
-                        prevOperation = operationHead;
-                        operation = operationHead -> nextOperation;
+                        prevOperation = operationHead
+                        operation = operationHead -> nextOperation
                         while(operation != NULL && (operation -> power != power || operation -> co_officient != co_officient)){
-                            prevOperation = operation;
-                            operation = operation -> nextOperation;
+                            prevOperation = operation
+                            operation = operation -> nextOperation
                         }
                         if(operation != NULL){
-                            prevOperation -> nextOperation = operation -> nextOperation;
-                            operation -> nextOperation = NULL;
-                            free(operation);
+                            prevOperation -> nextOperation = operation -> nextOperation
+                            operation -> nextOperation = NULL
+                            free(operation)
                         } else {
                             //print that the given term not found
                         }
@@ -365,52 +365,52 @@ c)  Write a program to add & multiply two polynomials.
             1.  Addition of polynomial1 & polynimial2 in linked list 3
         Algorithm:
             addition(operationHead1, operationHead2, operationHead3){
-                currOperation1 = operationHead1 -> nextOperation;
-                currOperation2 = operationHead2 -> nextOperation;
-                currOperation3 = operationHead3;
+                currOperation1 = operationHead1 -> nextOperation
+                currOperation2 = operationHead2 -> nextOperation
+                currOperation3 = operationHead3
                 while(currOperation1 != NULL && currOperation2 != NULL){
                     if(currOperation1 -> power > currOperation2 -> power){
-                        operation -> co_officient = currOperation1 -> co_officient;
-                        operation -> power = currOperation1 -> power;
-                        operation -> operator = currOperation1 -> operator;
-                        operation -> nextOperation = NULL;
-                        currOperation1 = currOperation1 -> nextOperation;
+                        operation -> co_officient = currOperation1 -> co_officient
+                        operation -> power = currOperation1 -> power
+                        operation -> operator = currOperation1 -> operator
+                        operation -> nextOperation = NULL
+                        currOperation1 = currOperation1 -> nextOperation
                     } else if(currOperation1 -> power < currOperation2 -> power){
-                        operation -> co_officient = currOperation2 -> co_officient;
-                        operation -> power = currOperation2 -> power;
-                        operation -> operator = currOperation2 -> operator;
-                        operation -> nextOperation = NULL;
-                        currOperation2 = currOperation2 -> nextOperation;
+                        operation -> co_officient = currOperation2 -> co_officient
+                        operation -> power = currOperation2 -> power
+                        operation -> operator = currOperation2 -> operator
+                        operation -> nextOperation = NULL
+                        currOperation2 = currOperation2 -> nextOperation
                     } else {
-                        operation -> co_officient = (currOperation1 -> co_officient) + (currOperation2 -> co_officient);
-                        operation -> power = currOperation1 -> power;
-                        operation -> operator = currOperation1 -> operator;
-                        operation -> nextOperation = NULL;
-                        currOperation1 = currOperation1 -> nextOperation;
-                        currOperation2 = currOperation2 -> nextOperation;
+                        operation -> co_officient = (currOperation1 -> co_officient) + (currOperation2 -> co_officient)
+                        operation -> power = currOperation1 -> power
+                        operation -> operator = currOperation1 -> operator
+                        operation -> nextOperation = NULL
+                        currOperation1 = currOperation1 -> nextOperation
+                        currOperation2 = currOperation2 -> nextOperation
                     }
-                    currOperation3 -> nextOperation = operation;
-                    currOperation3 = operation;
+                    currOperation3 -> nextOperation = operation
+                    currOperation3 = operation
                 }
                 while(currOperation1 != NULL){
-                    operation -> co_officient = currOperation1 -> co_officient;
-                    operation -> power = currOperation1 -> power;
-                    operation -> operator = currOperation1 -> operator;
-                    operation -> nextOperation = NULL;
-                    currOperation1 = currOperation1 -> nextOperation;
-                    currOperation3 -> nextOperation = operation;
-                    currOperation3 = operation;
+                    operation -> co_officient = currOperation1 -> co_officient
+                    operation -> power = currOperation1 -> power
+                    operation -> operator = currOperation1 -> operator
+                    operation -> nextOperation = NULL
+                    currOperation1 = currOperation1 -> nextOperation
+                    currOperation3 -> nextOperation = operation
+                    currOperation3 = operation
                 }
                 while(currOperation2 != NULL){
-                    operation -> co_officient = currOperation2 -> co_officient;
-                    operation -> power = currOperation2 -> power;
-                    operation -> operator = currOperation2 -> operator;
-                    operation -> nextOperation = NULL;
-                    currOperation2 = currOperation2 -> nextOperation;
-                    currOperation3 -> nextOperation = operation;
-                    currOperation3 = operation;
+                    operation -> co_officient = currOperation2 -> co_officient
+                    operation -> power = currOperation2 -> power
+                    operation -> operator = currOperation2 -> operator
+                    operation -> nextOperation = NULL
+                    currOperation2 = currOperation2 -> nextOperation
+                    currOperation3 -> nextOperation = operation
+                    currOperation3 = operation
                 }
-                currOperation3 -> operator = '\0';
+                currOperation3 -> operator = '\0'
             }
     Multiplication Of Polynomials:
         Input(s):
@@ -427,48 +427,175 @@ c)  Write a program to add & multiply two polynomials.
                     while(unsortedOperation != NULL){
                         sortedOperationTraverser = operationHead
                         while(sortedOperationTraverser -> nextOperation -> power > unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation) {
-                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation;
+                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation
                         }
                         if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
                             if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
-                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
-                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;
-                                sortedOperationTraverser -> nextOperation = unsortedOperation;
-                                unsortedOperation -> operator = '+';
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation
+                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation
+                                sortedOperationTraverser -> nextOperation = unsortedOperation
+                                unsortedOperation -> operator = '+'
                             } else {
-                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
-                                unsortedOperation -> nextOperation = NULL;
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation
+                                unsortedOperation -> nextOperation = NULL
                                 sortedOperationTraverser -> nextOperation -> co_officient = unsortedOperation -> co_officient + sortedOperationTraverser -> nextOperation -> co_officient
-                                free(unsortedOperation);
+                                free(unsortedOperation)
                                 if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
-                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
-                                    free(sortedOperationTraverser -> nextOperation);
+                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation
+                                    free(sortedOperationTraverser -> nextOperation)
                                 }
                             }
                         } else {
-                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation;
+                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation
                         }
-                        unsortedOperation = unsortedOperationTraverser -> nextOperation;
+                        unsortedOperation = unsortedOperationTraverser -> nextOperation
                     }
-                    unsortedOperationTraverser -> nextOperation = NULL;
+                    unsortedOperationTraverser -> nextOperation = NULL
                 }
             }
             multiplication(operationHead1, operationHead2, operationHead4){
-                currOperation1 = operationHead1 -> nextOperation;
-                currOperation3 = operationHead4;
+                currOperation1 = operationHead1 -> nextOperation
+                currOperation3 = operationHead4
                 while(currOperation1 != NULL){
-                    currOperation2 = operationHead2 -> nextOperation;
+                    currOperation2 = operationHead2 -> nextOperation
                     while(currOperation2 != NULL){
-                        operation -> co_officient = (currOperation1 -> co_officient) * (currOperation2 -> co_officient);
-                        operation -> power = (currOperation1 -> power) + (currOperation2 -> power);
-                        operation -> operator = currOperation1 -> operator;
-                        operation -> nextOperation = NULL;
-                        currOperation2 = currOperation2 -> nextOperation;
-                        currOperation3 -> nextOperation = operation;
-                        currOperation3 = operation;
+                        operation -> co_officient = (currOperation1 -> co_officient) * (currOperation2 -> co_officient)
+                        operation -> power = (currOperation1 -> power) + (currOperation2 -> power)
+                        operation -> operator = currOperation1 -> operator
+                        operation -> nextOperation = NULL
+                        currOperation2 = currOperation2 -> nextOperation
+                        currOperation3 -> nextOperation = operation
+                        currOperation3 = operation
                     }
-                    currOperation1 = currOperation1 -> nextOperation;
+                    currOperation1 = currOperation1 -> nextOperation
                 }
-                currOperation3 -> operator = '\0';
-                sortPolynomial(operationHead4);
+                currOperation3 -> operator = '\0'
+                sortPolynomial(operationHead4)
+            }
+
+Topic-4
+Write a program to evaluate an arithmatic expression using binary tree
+
+    Read Arithmatic Expression:
+        Input(s):
+            1.  Take inputs from user
+        Output(s):
+            1.  Binary tree with arithmatic expression
+        Algorithm:
+            readArithmaticExpression(){
+                read(numberOfTerms) //This line indicate user input
+                for(i = 0; i < numberOfTerms; i++){
+                    read(operand) //This line indicate user input
+                    if(i + 1 < numberOfTerms){
+                        do {
+                            read(operator) //This line indicate user input
+                        } while(operator != '+' && operator != '-' && operator != '*' && operator != '/')
+                        expression -> operator = operator
+                        if(i > 0){
+                            prevOperator = prevExpression -> operator
+                            switch(prevOperator){
+                                case '+':   
+                                case '-':   if(operator == '+' || operator == '-'){
+                                                if(prevOperator == '+' && prevExpression -> isLeftSubTree == 1){
+                                                    prevExpression -> rightSubTree = expression
+                                                    prevExpression -> isRightSubTree = 1
+                                                    expression -> leftOperand = operand
+                                                    expression -> isLeftSubTree = 0
+                                                } else {
+                                                    prevExpression -> rightOperand = operand
+                                                    prevExpression -> isRightSubTree = 0
+                                                    expression -> leftSubTree = prevExpression
+                                                    expression -> isLeftSubTree = 1
+                                                    rootNode = expression
+                                                }
+                                            } else {
+                                                expression -> leftOperand = operand
+                                                expression -> isLeftSubTree = 0
+                                                prevExpression -> rightSubTree = expression
+                                                prevExpression -> isRightSubTree = 1
+                                            }
+                                            break;
+                                case '*':
+                                case '/':   if(operator == '+' || operator == '-'){
+                                                prevExpression -> rightOperand = operand
+                                                prevExpression -> isRightSubTree = 0
+                                                expression -> leftSubTree = prevExpression
+                                                expression -> isLeftSubTree = 1
+                                                rootNode = expression
+                                            } else {
+                                                if(prevExpression -> isLeftSubTree == 1){
+                                                    prevExpression -> rightSubTree = expression
+                                                    prevExpression -> isRightSubTree = 1
+                                                    expression -> leftOperand = operand
+                                                    expression -> isLeftSubTree = 0
+                                                } else {
+                                                    prevExpression -> rightOperand = operand
+                                                    prevExpression -> isRightSubTree = 0
+                                                    expression -> leftSubTree = prevExpression
+                                                    expression -> isLeftSubTree = 1
+                                                    rootNode = expression
+                                                }
+                                            }
+                                            break;
+                            }
+                        } else {
+                            expression -> leftOperand = operand
+                            expression -> isLeftSubTree = 0
+                            rootNode = expression
+                        }
+                    prevExpression = expression
+                } else {
+                    prevExpression -> rightOperand = operand
+                    prevExpression -> isRightSubTree = 0
+                }
+            }
+        }
+    Inorder traversal:
+        Input(s):
+            1.  Parent of sub-tree
+        Output(s):
+            1.  Inorder traversal of binary tree
+        Algorithm:
+            inorderTraversal(parent){
+                if(parent -> isLeftSubTree == 1){
+                    inorderTraversal(parent -> leftSubTree)
+                } else {
+                    //print parent -> leftOperand
+                }
+                //print parent -> operator
+                if(parent -> isRightSubTree == 1){
+                    inorderTraversal(parent -> rightSubTree)
+                } else {
+                    //print parent -> rightOperand
+                }
+            }
+    Postorder Traversal:
+        Input(s):
+            1.  Parent of sub-tree
+        Output(s):
+            1.  Postorder traversal of binary tree
+        Algorithm:
+            postorderTraversal(parent){
+                leftOperand = 0
+                rightOperand = 0
+                if(parent -> isLeftSubTree == 1){
+                    leftOperand = postorderTraversal(parent -> leftSubTree)
+                } else {
+                    leftOperand = parent -> leftOperand
+                }
+                if(parent -> isRightSubTree == 1){
+                    rightOperand = postorderTraversal(parent -> rightSubTree)
+                } else {
+                    rightOperand = parent -> rightOperand
+                }
+                switch(parent -> operator){
+                    case '+':   leftOperand = leftOperand + rightOperand
+                                break
+                    case '-':   leftOperand = leftOperand - rightOperand
+                                break
+                    case '*':   leftOperand = leftOperand * rightOperand
+                                break
+                    case '/':   leftOperand = leftOperand / rightOperand
+                                break
+                }
             }
