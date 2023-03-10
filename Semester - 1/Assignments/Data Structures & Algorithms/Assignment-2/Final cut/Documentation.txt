@@ -141,7 +141,7 @@ b)  Write a program to add & multiply two polynomials.
                 }
                 return operation
             }
-    Multiplication of polynomials:
+    Multiplication Of Polynomials:
         Input(s):
             1.  Polynomial expression 1
             2.  Number of terms polynomial 1 have
@@ -322,6 +322,153 @@ b)  Write another program to insert & delete a term of polynomial.
             }
     Delete Existing Term:
         Input(s):
+            1.  Head pointer of a linked list
         Output(s):
+            1.  Updated polynomial expression
         Algorithm:
-            
+            deletePolynomialTerm(operationHead){
+                flag = 0;
+                isAppended = 0;
+                if(operationHead -> nextOperation != NULL){
+                    read(co_officient) //This line indicate user input
+                    if(co_officient != 0){
+                        read(power) //This line indicate user input
+                        prevOperation = operationHead;
+                        operation = operationHead -> nextOperation;
+                        while(operation != NULL && (operation -> power != power || operation -> co_officient != co_officient)){
+                            prevOperation = operation;
+                            operation = operation -> nextOperation;
+                        }
+                        if(operation != NULL){
+                            prevOperation -> nextOperation = operation -> nextOperation;
+                            operation -> nextOperation = NULL;
+                            free(operation);
+                        } else {
+                            //print that the given term not found
+                        }
+                    } else {
+                        //print 0 is invalid co-officient
+                    }
+                } else {
+                    //print there is nothing to delete
+                }
+            }
+
+c)  Write a program to add & multiply two polynomials.
+
+    Addition Of Polynomials:
+        Input(s):
+            1.  Head pointer of a linked list 1
+            2.  Head pointer of a linked list 2
+            3.  Head pointer of a linked list 3
+        Output(s):
+            1.  Addition of polynomial1 & polynimial2 in linked list 3
+        Algorithm:
+            addition(operationHead1, operationHead2, operationHead3){
+                currOperation1 = operationHead1 -> nextOperation;
+                currOperation2 = operationHead2 -> nextOperation;
+                currOperation3 = operationHead3;
+                while(currOperation1 != NULL && currOperation2 != NULL){
+                    if(currOperation1 -> power > currOperation2 -> power){
+                        operation -> co_officient = currOperation1 -> co_officient;
+                        operation -> power = currOperation1 -> power;
+                        operation -> operator = currOperation1 -> operator;
+                        operation -> nextOperation = NULL;
+                        currOperation1 = currOperation1 -> nextOperation;
+                    } else if(currOperation1 -> power < currOperation2 -> power){
+                        operation -> co_officient = currOperation2 -> co_officient;
+                        operation -> power = currOperation2 -> power;
+                        operation -> operator = currOperation2 -> operator;
+                        operation -> nextOperation = NULL;
+                        currOperation2 = currOperation2 -> nextOperation;
+                    } else {
+                        operation -> co_officient = (currOperation1 -> co_officient) + (currOperation2 -> co_officient);
+                        operation -> power = currOperation1 -> power;
+                        operation -> operator = currOperation1 -> operator;
+                        operation -> nextOperation = NULL;
+                        currOperation1 = currOperation1 -> nextOperation;
+                        currOperation2 = currOperation2 -> nextOperation;
+                    }
+                    currOperation3 -> nextOperation = operation;
+                    currOperation3 = operation;
+                }
+                while(currOperation1 != NULL){
+                    operation -> co_officient = currOperation1 -> co_officient;
+                    operation -> power = currOperation1 -> power;
+                    operation -> operator = currOperation1 -> operator;
+                    operation -> nextOperation = NULL;
+                    currOperation1 = currOperation1 -> nextOperation;
+                    currOperation3 -> nextOperation = operation;
+                    currOperation3 = operation;
+                }
+                while(currOperation2 != NULL){
+                    operation -> co_officient = currOperation2 -> co_officient;
+                    operation -> power = currOperation2 -> power;
+                    operation -> operator = currOperation2 -> operator;
+                    operation -> nextOperation = NULL;
+                    currOperation2 = currOperation2 -> nextOperation;
+                    currOperation3 -> nextOperation = operation;
+                    currOperation3 = operation;
+                }
+                currOperation3 -> operator = '\0';
+            }
+    Multiplication Of Polynomials:
+        Input(s):
+            1.  Head pointer of a linked list 1
+            2.  Head pointer of a linked list 2
+            3.  Head pointer of a linked list 4
+        Output(s):
+            1.  Multiplication of polynomial1 & polynimial2 in linked list 4
+        Algorithm:
+            sortPolynomial(operationHead){
+                unsortedOperationTraverser = operationHead -> nextOperation
+                if(unsortedOperationTraverser != NULL){
+                    unsortedOperation = unsortedOperationTraverser -> nextOperation
+                    while(unsortedOperation != NULL){
+                        sortedOperationTraverser = operationHead
+                        while(sortedOperationTraverser -> nextOperation -> power > unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation) {
+                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation;
+                        }
+                        if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
+                            if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
+                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;
+                                sortedOperationTraverser -> nextOperation = unsortedOperation;
+                                unsortedOperation -> operator = '+';
+                            } else {
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
+                                unsortedOperation -> nextOperation = NULL;
+                                sortedOperationTraverser -> nextOperation -> co_officient = unsortedOperation -> co_officient + sortedOperationTraverser -> nextOperation -> co_officient
+                                free(unsortedOperation);
+                                if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
+                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
+                                    free(sortedOperationTraverser -> nextOperation);
+                                }
+                            }
+                        } else {
+                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation;
+                        }
+                        unsortedOperation = unsortedOperationTraverser -> nextOperation;
+                    }
+                    unsortedOperationTraverser -> nextOperation = NULL;
+                }
+            }
+            multiplication(operationHead1, operationHead2, operationHead4){
+                currOperation1 = operationHead1 -> nextOperation;
+                currOperation3 = operationHead4;
+                while(currOperation1 != NULL){
+                    currOperation2 = operationHead2 -> nextOperation;
+                    while(currOperation2 != NULL){
+                        operation -> co_officient = (currOperation1 -> co_officient) * (currOperation2 -> co_officient);
+                        operation -> power = (currOperation1 -> power) + (currOperation2 -> power);
+                        operation -> operator = currOperation1 -> operator;
+                        operation -> nextOperation = NULL;
+                        currOperation2 = currOperation2 -> nextOperation;
+                        currOperation3 -> nextOperation = operation;
+                        currOperation3 = operation;
+                    }
+                    currOperation1 = currOperation1 -> nextOperation;
+                }
+                currOperation3 -> operator = '\0';
+                sortPolynomial(operationHead4);
+            }
