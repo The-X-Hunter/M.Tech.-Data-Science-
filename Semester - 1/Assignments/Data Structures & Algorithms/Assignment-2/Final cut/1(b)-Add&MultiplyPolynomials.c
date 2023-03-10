@@ -133,7 +133,7 @@ struct Operation * multiplication(struct Operation operation1[], int numberOfTer
         i++;
     }
     operation[k - 1].operator = '\0';
-    //Sorting is needed here because after multiplication it requires to simplify it, this will remove redundar terms (terms with same power)
+    //Sorting is needed here because after multiplication it requires to simplify it, this will remove redundat terms (terms with same power)
     sortPolynomial(operation, numberOfTerms);
     return operation;
 }
