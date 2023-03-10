@@ -58,7 +58,7 @@ int sortPolynomial(struct Operation * operationHead){
             the element shouldn't be the first element of unsorted part
             */
             if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
-                //If power is lesser than unsorted one then remove element from unsorted part and append just before the element with lesser power in sorted partss
+                //If power is lesser than unsorted one then remove element from unsorted part and append just before the element with lesser power in sorted parts
                 if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
                     unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
                     unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;

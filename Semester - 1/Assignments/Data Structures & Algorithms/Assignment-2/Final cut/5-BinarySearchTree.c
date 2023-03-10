@@ -59,6 +59,7 @@ int insert(struct Element ** rootNode, int key){
     prevElem = search(* rootNode, key);
     currElem = (struct Element *) malloc(sizeof(struct Element));
     currElem -> key = key;
+    currElem -> leftSubTree = NULL:
     //If parent is NULL then tree is empty, make the node root
     if(prevElem == NULL){
         * rootNode = currElem;
@@ -97,7 +98,7 @@ int delete(struct Element ** rootNode, int key){
         //Else go for current p's inorder successor
         f = p;
         r = p -> rightSubTree;
-        s = s -> leftSubTree;
+        s = r -> leftSubTree;
         while(s != NULL){
             f = r;
             r = s;

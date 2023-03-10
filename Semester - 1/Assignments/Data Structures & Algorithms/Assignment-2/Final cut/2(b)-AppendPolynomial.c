@@ -4,7 +4,7 @@
     Subject: Data Structures & Algorithms
     Objective:
         a)  Write a program using linked list with header node & sentinel value to read & print a polynomial.
-        b)  Write another program to insert & deletea term of polynomial.
+        b)  Write another program to insert & delete a term of polynomial.
         c)  Write a program to add & multiply two polynomials.
 */
 

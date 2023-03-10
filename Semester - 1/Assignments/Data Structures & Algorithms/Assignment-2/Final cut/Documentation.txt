@@ -1,0 +1,245 @@
+Assignment-2
+Topic-1
+a)  Write a program using arrays to read & print a polynomial.
+
+    Read Polynomial:
+        Input(s):
+            1.  Number of terms a polynomial will have
+        Output(s):
+            1.  Polynomial expression
+        Algorithm:
+            readPolynomial(numberOfTerms){
+                for(i = 1 to numberOfTerms){
+                    read(operation[i].co_officient) //This line indicate user input
+                    if(i > 0 & operation[i - 1].operator = '-'){
+                        operation[i].co_officient = -operation[i].co_officient
+                        operation[i - 1].operator = '+'
+                    }
+                    read(operation.power) //This line indicate user input
+                    do {
+                        if(i + 1 <= numberOfTerms){
+                            read(operation.operator)
+                        } else {
+                            operation.operator = '\0'
+                        }
+                    } while(operation.operator != '+' & operation.operator != '-)
+                }
+                return operation
+            }
+    Sort Polynomial:
+        Input(s):
+            1.  Polynomial expression
+            2.  Number of terms a polynomial have
+        Output(s):
+            1.  Sorted polynomial expression
+        Algorithm:
+            quicksort(operation, low, high, numberOfTerms){
+                if(low < high){
+                    pivotIndex = high
+                    i = low
+                    j = i
+                    pivotTermPower = operation[pivotIndex].power
+                    while(i < high){
+                        if(operation[i].power >= pivotTermPower){
+                            if(operation[i].power > pivotTermPower){
+                                swap(operation[i], operation[j]);
+                                j = j + 1
+                            } else {
+                                if(i > 0){
+                                    operation[i - 1].operator = operation[i].operator
+                                }
+                                operation[pivotIndex].co_officient = operation[pivotIndex].co_officient + operation[i].co_officient
+                                k = i
+                                while(k < numberOfTerms){
+                                    operation[k] = operation[k + 1]
+                                    k = k + 1
+                                }
+                                pivotIndex = pivotIndex - 1
+                                high = high - 1
+                                numberOfTerms = numberOfTerms - 1
+                                i = i - 1
+                            }
+                        }
+                        i = i + 1
+                    }
+                    if(operation[j].power < operation[pivotIndex].power){
+                        swap(operation[j].operator, operation[pivotIndex].operator)
+                        swap(operation[j], operation[pivotIndex])
+                    }
+                    numberOfTerms = quicksort(operation, low, j - 1, numberOfTerms)
+                    numberOfTerms = quicksort(operation, j + 1, high, numberOfTerms)
+                }
+                return numberOfTerms
+            }
+            sortPolynomial(operation, numberOfTerms){
+                numberOfTerms = quicksort(operation, 0, numberOfTerms, numberOfTerms)
+                for(i = 1 to numberOfTerms){
+                    if(operation[i].co_officient = 0){
+                        if(i + 1 <= numberOfTerms){
+                            operation[i] = operation[i + 1]
+                            numberOfTerms = numberOfTerms - 1
+                        }
+                    }
+                }
+            }
+
+b)  Write a program to add & multiply two polynomials.
+
+    Addition Of Polynomials:
+        Input(s):
+            1.  Polynomial expression 1
+            2.  Number of terms polynomial 1 have
+            3.  Polynomial expression 2
+            4.  Number of terms polynomial 2 have
+            5.  Number of terms resultant polynomial will have
+        Output(s):
+            1.  Addition of two polynomial expressions
+        Algorithm:
+            addition(operation1, numberOfTerms1, operation2, numberOfTerms2, numberOfTerms) {
+                if(numberOfTerms1 = 0){
+                    operation = operation2
+                    numberOfTerms = numberOfTerms2
+                } else {
+                    if(numberOfTerms2 = 0){
+                        operation = operation1
+                        numberOfTerms = numberOfTerms1
+                    } else {
+                        i = 1
+                        j = 1
+                        k = 1
+                        do {
+                            if(operation1[i].power = operation2[j].power){
+                                operation[k].co_officient = operation1[i].co_officient + operation2[j].co_officient
+                                operation[k].power = operation1[i].power
+                                operation[k].operator = '+'
+                                i = i + 1
+                                j = j + 1
+                            } else {
+                                if(operation1[i].power > operation2[j].power){
+                                    operation[k] = operation1[i]
+                                    i = i + 1
+                                } else {
+                                    operation[k] = operation2[j]
+                                    j = j + 1
+                                }
+                            }
+                            k = k + 1
+                        } while(i <= numberOfTerms1 & j <= numberOfTerms2)
+                        while(i <= numberOfTerms1){
+                            operation[k] = operation[i]
+                            i = i + 1
+                            k = k + 1
+                        }
+                        while(j <= numberOfTerms2){
+                            operation[k] = operation[j]
+                            j = j + 1
+                            k = k + 1
+                        }
+                        operation[k - 1] = '\0'
+                        numberOfTerms = k - 1
+                    }
+                }
+                return operation
+            }
+    Multiplication of polynomials:
+        Input(s):
+            1.  Polynomial expression 1
+            2.  Number of terms polynomial 1 have
+            3.  Polynomial expression 2
+            4.  Number of terms polynomial 2 have
+            5.  Number of terms resultant polynomial will have
+        Output(s):
+            1.  Multiplication of two polynomial expressions
+        Algorithm:
+            multiplication(operation1, numberOfTerms1, operation2, numberOfTerms2, numberOfTerms){
+                numberOfTerms = numberOfTerms1 * numberOfTerms2
+                i = 1
+                k = 1
+                while(i < numberOfTerms1){
+                    j = 1
+                    while(j < numberOfTerms2){
+                        operation[k].co_officient = operation[i].co_officient * operation[j].co_officient
+                        operation[k].power = operation[i].power + operation[j].power
+                        operation[k].operator = '+'
+                        k = k + 1
+                        j = j + 1
+                    }
+                    i = i + 1
+                }
+                operation[k - 1].operator = '\0'
+                sortPolynomial(operation, numberOfTerms)
+                return operation
+            }
+
+Topic-2
+a)  Write a program using linked list with header node & sentinel value to read & print a polynomial.
+
+    Read Polynomial:
+        Input(s):
+            1.  Head pointer of a linked list
+        Output(s):
+            1.  Polynomial expression
+        Algorithm:
+            readPolynomial(operationHead){
+                for(i = 1 to numberOfTerms){
+                    read(operation -> co_officient) //This line indicate user input
+                    if(prevOperation != operationHead & prevOperation -> operator = '-'){
+                        operation[i].co_officient = -operation[i].co_officient
+                        prevOperation -> operator = '-'
+                    }
+                    read(operation -> power) //This line indicate user input
+                    do {
+                        if(i + 1 <= numberOfTerms){
+                            read(operation -> operator)
+                        } else {
+                            operation -> operator = '\0'
+                        }
+                    } while(operation -> operator != '+' & operation -> operator != '-')
+                    operation -> nextOperation = NULL
+                    prevOperation -> nextOperation = operation
+                    prevOperation = operation
+                }
+            }
+    Sort Polynomial:
+        Input(s):
+            1.  Head pointer of a linked list
+        Output(s):
+            1.  Sorted polynomial expression
+        Algorithm:
+            sortPolynomial(operationHead){
+                unsortedOperationTraverser = operationHead -> nextOperation
+                if(unsortedOperationTraverser != NULL){
+                    unsortedOperation = unsortedOperationTraverser -> nextOperation
+                    while(unsortedOperation != NULL){
+                        sortedOperationTraverser = operationHead
+                        while(sortedOperationTraverser -> nextOperation -> power > unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation) {
+                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation;
+                        }
+                        if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
+                            if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
+                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;
+                                sortedOperationTraverser -> nextOperation = unsortedOperation;
+                                unsortedOperation -> operator = '+';
+                            } else {
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
+                                unsortedOperation -> nextOperation = NULL;
+                                sortedOperationTraverser -> nextOperation -> co_officient = unsortedOperation -> co_officient + sortedOperationTraverser -> nextOperation -> co_officient
+                                free(unsortedOperation);
+                                if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
+                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
+                                    free(sortedOperationTraverser -> nextOperation);
+                                }
+                            }
+                        } else {
+                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation;
+                        }
+                        unsortedOperation = unsortedOperationTraverser -> nextOperation;
+                    }
+                    unsortedOperationTraverser -> nextOperation = NULL;
+                }
+            }
+
+b)  Write another program to insert & delete a term of polynomial.
+
+    
