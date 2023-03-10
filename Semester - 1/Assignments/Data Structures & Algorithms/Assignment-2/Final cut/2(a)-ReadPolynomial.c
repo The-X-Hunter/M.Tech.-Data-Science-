@@ -29,7 +29,7 @@ int printPolynomial(struct Operation * operationHead){
         printf("(%d * (x ^ %d)) %c ", operation -> co_officient, operation -> power, operation -> operator);
         operation = operation -> nextOperation;
     }
-    printf("((%d * x) ^ %d)\n", operation -> co_officient, operation -> power);
+    printf("(%d * (x ^ %d))\n", operation -> co_officient, operation -> power);
     return 0;
 }
 

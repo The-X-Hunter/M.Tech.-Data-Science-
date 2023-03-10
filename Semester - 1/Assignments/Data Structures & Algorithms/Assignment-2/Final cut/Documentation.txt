@@ -244,8 +244,43 @@ b)  Write another program to insert & delete a term of polynomial.
 
     Add New Term:
         Input(s):
+            1.  Head pointer of a linked list
         Output(s):
+            1.  Updated & sorted polynomial expression
         Algorithm:
+            sortPolynomial(operationHead){
+                unsortedOperationTraverser = operationHead -> nextOperation
+                if(unsortedOperationTraverser != NULL){
+                    unsortedOperation = unsortedOperationTraverser -> nextOperation
+                    while(unsortedOperation != NULL){
+                        sortedOperationTraverser = operationHead
+                        while(sortedOperationTraverser -> nextOperation -> power > unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation) {
+                            sortedOperationTraverser = sortedOperationTraverser -> nextOperation;
+                        }
+                        if(sortedOperationTraverser -> nextOperation -> power <= unsortedOperation -> power && sortedOperationTraverser -> nextOperation != unsortedOperation){
+                            if(sortedOperationTraverser -> nextOperation -> power < unsortedOperation -> power){
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
+                                unsortedOperation -> nextOperation = sortedOperationTraverser -> nextOperation;
+                                sortedOperationTraverser -> nextOperation = unsortedOperation;
+                                unsortedOperation -> operator = '+';
+                            } else {
+                                unsortedOperationTraverser -> nextOperation = unsortedOperation -> nextOperation;
+                                unsortedOperation -> nextOperation = NULL;
+                                sortedOperationTraverser -> nextOperation -> co_officient = unsortedOperation -> co_officient + sortedOperationTraverser -> nextOperation -> co_officient
+                                free(unsortedOperation);
+                                if(sortedOperationTraverser -> nextOperation -> co_officient == 0){
+                                    sortedOperationTraverser -> nextOperation = sortedOperationTraverser -> nextOperation -> nextOperation;
+                                    free(sortedOperationTraverser -> nextOperation);
+                                }
+                            }
+                        } else {
+                            unsortedOperationTraverser = unsortedOperationTraverser -> nextOperation;
+                        }
+                        unsortedOperation = unsortedOperationTraverser -> nextOperation;
+                    }
+                    unsortedOperationTraverser -> nextOperation = NULL;
+                }
+            }
             appendPolynomial(operationHead){
                 flag = 0
                 inAppended = 0
@@ -256,40 +291,37 @@ b)  Write another program to insert & delete a term of polynomial.
                     operation = operation -> nextOperation;
                 }
                 do {
-                    read(operation -> co_officient)
+                    read(operation -> co_officient) //This line indicate user input
                     if(operation -> co_officient != 0){
                         if(prevOperation != operationHead && prevOperation -> operator == '-'){
                             operation -> co_officient = -(operation -> co_officient);
                             prevOperation -> operator = '+';
                         }
-            printf("Enter power of this term: ");
-            scanf("%d", &(operation -> power));
-            //Ask user if he want to append more or not
-            do {
-                printf("Do you want to add more(0 or 1): ");
-                scanf("%d", &flag);
-            } while(flag != 0 && flag != 1);
-            //If the term is not last one then ask for operator else insert '\0' in operator part
-            if(flag == 1){
-                do {
-                    printf("Enter operator(+ or -): ");
-                    scanf(" %c", &(operation -> operator));
-                } while(operation -> operator != '+' && operation -> operator != '-');
-            } else {
-                operation -> operator = '\0';
+                        read(operation -> power) //This line indicate user input
+                        do {
+                            read(flag) //This line indicate user input
+                        } while(flag != 0 && flag != 1);
+                        if(flag == 1){
+                            do {
+                                read(operation -> operator) //This line indicate user input
+                            } while(operation -> operator != '+' && operation -> operator != '-');
+                        } else {
+                            operation -> operator = '\0';
+                        }
+                        prevOperation -> nextOperation = operation;
+                        prevOperation = operation;
+                        isAppended = 1;
+                    } else {
+                        flag = 0;
+                        prevOperation -> operator = '\0';
+                    }
+                } while(flag == 1);
+                if(isAppended == 1){
+                   sortPolynomial(operationHead);
+                }
             }
-            //Append new term at the end of given polynomial expression
-            prevOperation -> nextOperation = operation;
-            prevOperation = operation;
-            isAppended = 1;
-        } else {
-            //If entered co-officient is 0 then set '\0' as operator in last term of polynomial expresssion
-            flag = 0;
-            prevOperation -> operator = '\0';
-        }
-    } while(flag == 1);
-    //If anything appended in polynomial expression then only call sort function
-    if(isAppended == 1){
-        sortPolynomial(operationHead);
-    }
-            }
+    Delete Existing Term:
+        Input(s):
+        Output(s):
+        Algorithm:
+            
