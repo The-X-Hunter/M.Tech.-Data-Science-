@@ -26,7 +26,7 @@ struct Operation * operation1;
 int printPolynomial(struct Operation operation[], int numberOfTerms){
     int i;
     for(i = 0; i < numberOfTerms; i++){
-        printf("((%d * x) ^ %d)", operation[i].co_officient, operation[i].power);
+        printf("(%d * (x ^ %d))", operation[i].co_officient, operation[i].power);
         if(i + 1 < numberOfTerms){
             printf(" %c ", operation[i].operator);
         }

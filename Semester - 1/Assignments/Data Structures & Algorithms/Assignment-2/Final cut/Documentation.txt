@@ -242,4 +242,54 @@ a)  Write a program using linked list with header node & sentinel value to read 
 
 b)  Write another program to insert & delete a term of polynomial.
 
-    
+    Add New Term:
+        Input(s):
+        Output(s):
+        Algorithm:
+            appendPolynomial(operationHead){
+                flag = 0
+                inAppended = 0
+                prevOperation = operationHead
+                operation = operationHead -> nextOperation
+                while(operation != NULL){
+                    prevOperation = operation;
+                    operation = operation -> nextOperation;
+                }
+                do {
+                    read(operation -> co_officient)
+                    if(operation -> co_officient != 0){
+                        if(prevOperation != operationHead && prevOperation -> operator == '-'){
+                            operation -> co_officient = -(operation -> co_officient);
+                            prevOperation -> operator = '+';
+                        }
+            printf("Enter power of this term: ");
+            scanf("%d", &(operation -> power));
+            //Ask user if he want to append more or not
+            do {
+                printf("Do you want to add more(0 or 1): ");
+                scanf("%d", &flag);
+            } while(flag != 0 && flag != 1);
+            //If the term is not last one then ask for operator else insert '\0' in operator part
+            if(flag == 1){
+                do {
+                    printf("Enter operator(+ or -): ");
+                    scanf(" %c", &(operation -> operator));
+                } while(operation -> operator != '+' && operation -> operator != '-');
+            } else {
+                operation -> operator = '\0';
+            }
+            //Append new term at the end of given polynomial expression
+            prevOperation -> nextOperation = operation;
+            prevOperation = operation;
+            isAppended = 1;
+        } else {
+            //If entered co-officient is 0 then set '\0' as operator in last term of polynomial expresssion
+            flag = 0;
+            prevOperation -> operator = '\0';
+        }
+    } while(flag == 1);
+    //If anything appended in polynomial expression then only call sort function
+    if(isAppended == 1){
+        sortPolynomial(operationHead);
+    }
+            }

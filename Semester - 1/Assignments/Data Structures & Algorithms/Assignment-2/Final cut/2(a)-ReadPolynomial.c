@@ -26,7 +26,7 @@ int printPolynomial(struct Operation * operationHead){
     struct Operation * operation;
     operation = operationHead -> nextOperation;
     while(operation -> nextOperation != NULL){
-        printf("((%d * x) ^ %d) %c ", operation -> co_officient, operation -> power, operation -> operator);
+        printf("(%d * (x ^ %d)) %c ", operation -> co_officient, operation -> power, operation -> operator);
         operation = operation -> nextOperation;
     }
     printf("((%d * x) ^ %d)\n", operation -> co_officient, operation -> power);

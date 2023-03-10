@@ -26,7 +26,7 @@ struct Operation * operation1, * operation2, * operation3, * operation4;
 int printPolynomial(struct Operation operation[], int numberOfTerms){
     int i;
     for(i = 0; i < numberOfTerms; i++){
-        printf("(%d * x) ^ %d", operation[i].co_officient, operation[i].power);
+        printf("(%d * (x ^ %d))", operation[i].co_officient, operation[i].power);
         if(i + 1 < numberOfTerms){
             printf(" %c ", operation[i].operator);
         }
@@ -160,7 +160,6 @@ struct Operation * addition(struct Operation operation1[], int numberOfTerms1, s
                 if(operation1[i].power == operation2[j].power){
                     operation[k].co_officient = operation1[i].co_officient + operation2[j++].co_officient;
                     operation[k].power = operation1[i++].power;
-                    operation[k].operator = '+';
                 } else {
                     //Copy that term which has greater power
                     if(operation1[i].power > operation2[j].power){
@@ -169,7 +168,7 @@ struct Operation * addition(struct Operation operation1[], int numberOfTerms1, s
                         operation[k] = operation2[j++];
                     }
                 }
-                k++;
+                operation[k++].operator = '+';
             } while(i < numberOfTerms1 && j < numberOfTerms2);
             //Copy any left term from first polynomial expression
             while(i < numberOfTerms1){
