@@ -7,6 +7,10 @@ a)  Write a program using arrays to read & print a polynomial.
             1.  Number of terms a polynomial will have
         Output(s):
             1.  Polynomial expression
+        Complexity:
+            Best case -> O(n)
+            Average case -> O(n)
+            Worst case -> O(n)
         Algorithm:
             readPolynomial(numberOfTerms){
                 for(i = 1 to numberOfTerms){
@@ -32,6 +36,10 @@ a)  Write a program using arrays to read & print a polynomial.
             2.  Number of terms a polynomial have
         Output(s):
             1.  Sorted polynomial expression
+        Complexity:
+            Best case -> O(n + nlogn) ~ O(nlogn)
+            Average case -> O(n + (n ^ 2)) ~ O(n ^ 2)
+            Worst case -> O(n + (n ^ 2)) ~ O(n ^ 2)
         Algorithm:
             quicksort(operation, low, high, numberOfTerms){
                 if(low < high){
@@ -94,6 +102,10 @@ b)  Write a program to add & multiply two polynomials.
             5.  Number of terms resultant polynomial will have
         Output(s):
             1.  Addition of two polynomial expressions
+        Complexity:
+            Best case -> O(n + m)
+            Average case -> O(n + m)
+            Worst case -> O(n + m)
         Algorithm:
             addition(operation1, numberOfTerms1, operation2, numberOfTerms2, numberOfTerms) {
                 if(numberOfTerms1 = 0){
@@ -150,6 +162,10 @@ b)  Write a program to add & multiply two polynomials.
             5.  Number of terms resultant polynomial will have
         Output(s):
             1.  Multiplication of two polynomial expressions
+        Complexity:
+            Best case -> O(n * m)
+            Average case -> O(n * m)
+            Worst case -> O(n * m)
         Algorithm:
             multiplication(operation1, numberOfTerms1, operation2, numberOfTerms2, numberOfTerms){
                 numberOfTerms = numberOfTerms1 * numberOfTerms2
@@ -179,6 +195,10 @@ a)  Write a program using linked list with header node & sentinel value to read 
             1.  Head pointer of a linked list
         Output(s):
             1.  Polynomial expression
+        Complexity:
+            Best case -> O(n)
+            Average case -> O(n)
+            Worst case -> O(n)
         Algorithm:
             readPolynomial(operationHead){
                 for(i = 1 to numberOfTerms){
@@ -205,6 +225,10 @@ a)  Write a program using linked list with header node & sentinel value to read 
             1.  Head pointer of a linked list
         Output(s):
             1.  Sorted polynomial expression
+        Complexity:
+            Best case -> O(n ^ 2)
+            Average case -> O(n ^ 2)
+            Worst case -> O(n ^ 2)
         Algorithm:
             sortPolynomial(operationHead){
                 unsortedOperationTraverser = operationHead -> nextOperation
@@ -247,6 +271,10 @@ b)  Write another program to insert & delete a term of polynomial.
             1.  Head pointer of a linked list
         Output(s):
             1.  Updated & sorted polynomial expression
+        Complexity:
+            Best case -> O(n + (n ^ 2)) ~ O(n ^ 2)
+            Average case -> O(n + (n ^ 2)) ~ O(n ^ 2)
+            Worst case -> O(n + (n ^ 2)) ~ O(n ^ 2)
         Algorithm:
             sortPolynomial(operationHead){
                 unsortedOperationTraverser = operationHead -> nextOperation
@@ -325,6 +353,10 @@ b)  Write another program to insert & delete a term of polynomial.
             1.  Head pointer of a linked list
         Output(s):
             1.  Updated polynomial expression
+        Complexity:
+            Best case -> O(n)
+            Average case -> O(n)
+            Worst case -> O(n)
         Algorithm:
             deletePolynomialTerm(operationHead){
                 flag = 0
@@ -363,6 +395,10 @@ c)  Write a program to add & multiply two polynomials.
             3.  Head pointer of a linked list 3
         Output(s):
             1.  Addition of polynomial1 & polynimial2 in linked list 3
+        Complexity:
+            Best case -> O(n + m)
+            Average case -> O(n + m)
+            Worst case -> O(n + m)
         Algorithm:
             addition(operationHead1, operationHead2, operationHead3){
                 currOperation1 = operationHead1 -> nextOperation
@@ -419,6 +455,10 @@ c)  Write a program to add & multiply two polynomials.
             3.  Head pointer of a linked list 4
         Output(s):
             1.  Multiplication of polynomial1 & polynimial2 in linked list 4
+        Complexity:
+            Best case -> O((n * m) + (n ^ 2))
+            Average case -> O((n * m) + (n ^ 2))
+            Worst case -> O((n * m) + (n ^ 2))
         Algorithm:
             sortPolynomial(operationHead){
                 unsortedOperationTraverser = operationHead -> nextOperation
@@ -481,6 +521,10 @@ Write a program to evaluate an arithmatic expression using binary tree
             1.  Take inputs from user
         Output(s):
             1.  Binary tree with arithmatic expression
+        Complexity:
+            Best case -> O(n)
+            Average case -> O(n)
+            Worst case -> O(n)
         Algorithm:
             readArithmaticExpression(){
                 read(numberOfTerms) //This line indicate user input
@@ -555,6 +599,10 @@ Write a program to evaluate an arithmatic expression using binary tree
             1.  Parent of sub-tree
         Output(s):
             1.  Inorder traversal of binary tree
+        Complexity:
+            Best case -> O(logn)
+            Average case -> O(logn)
+            Worst case -> O(n)
         Algorithm:
             inorderTraversal(parent){
                 if(parent -> isLeftSubTree == 1){
@@ -574,6 +622,10 @@ Write a program to evaluate an arithmatic expression using binary tree
             1.  Parent of sub-tree
         Output(s):
             1.  Postorder traversal of binary tree
+        Complexity:
+            Best case -> O(logn)
+            Average case -> O(logn)
+            Worst case -> O(n)
         Algorithm:
             postorderTraversal(parent){
                 leftOperand = 0
@@ -598,4 +650,99 @@ Write a program to evaluate an arithmatic expression using binary tree
                     case '/':   leftOperand = leftOperand / rightOperand
                                 break
                 }
+            }
+
+Topic-5
+Write a program to maintain a priority queue using a binary search tree
+
+    Insertion In BST:
+        Input(s):
+            1.  Root node of tree
+            2.  Key to be inserted
+        Output(s):
+            1.  Updated binary search tree
+        Complexity:
+            Best case -> O(logn)
+            Average case -> O(logn)
+            Worst case -> O(n)
+        Algorithm:
+            search(rootNode, key){
+                currElem = rootNode
+                while(currElem != NULL){
+                    if((key < currElem -> key) && (currElem -> leftSubTree != NULL && currElem -> leftSubTree -> key != key)) {
+                        currElem = currElem -> leftSubTree
+                    } else if((key > currElem -> key) && (currElem -> rightSubTree != NULL && currElem -> rightSubTree -> key != key)){
+                        currElem = currElem -> rightSubTree
+                    } else {
+                        break
+                    }
+                }
+            }
+            insert(rootNode, key){
+                prevElem = search(rootNode, key)
+                currElem -> key = key
+                currElem -> leftSubTree = NULL
+                if(prevElem == NULL){
+                    rootNode = currElem
+                } else if(prevElem -> key < key && prevElem -> rightSubTree == NULL){
+                    prevElem -> rightSubTree = currElem
+                } else if(prevElem -> key > key && prevElem -> leftSubTree == NULL){
+                    prevElem -> leftSubTree = currElem
+                } else {
+                    //print that element already exists
+                    free(currElem)
+                }
+            }
+    Deletion In BST:
+        Input(s):
+            1.  Root node of tree
+            2.  Key to be deleted
+        Output(s):
+            1.  Updated binary search tree
+        Complexity:
+            Best case -> O(logn)
+            Average case -> O(logn)
+            Worst case -> O(n)
+        Algorithms:
+            search(rootNode, key){
+                currElem = rootNode
+                while(currElem != NULL){
+                    if((key < currElem -> key) && (currElem -> leftSubTree != NULL && currElem -> leftSubTree -> key != key)) {
+                        currElem = currElem -> leftSubTree
+                    } else if((key > currElem -> key) && (currElem -> rightSubTree != NULL && currElem -> rightSubTree -> key != key)){
+                        currElem = currElem -> rightSubTree
+                    } else {
+                        break
+                    }
+                }
+            }
+            delete(rootNode, key){
+                q = search(rootNode, key)
+                if(key < q -> key){
+                    p = q -> leftSubTree
+                } else {
+                    p = q -> rightSubTree
+                }
+                if(p -> leftSubTree == NULL){
+                    r = p -> rightSubTree
+                } else if(p -> rightSubTree == NULL){
+                    r = p -> leftSubTree
+                } else {
+                    f = p
+                    r = p -> rightSubTree
+                    s = r -> leftSubTree
+                    while(s != NULL){
+                        f = r
+                        r = s
+                        s = s -> leftSubTree
+                    }
+                    q = f
+                    p = r
+                }
+                if(p -> key < q -> key){
+                    q -> leftSubTree = r
+                } else {
+                    q -> rightSubTree = r
+                }
+                free(p)
             }
