@@ -78,10 +78,11 @@ int inorderTraversal(struct Expression * parent){
 }
 
 //Read & store artithmatic expression.
-int readArithmaticExpression(){
-    int i, operand;
+int readArithmaticExpression(struct Expression ** rootNode){
+    int i, operand, flag;
     char operator, prevOperator;
-    struct Expression * expression, * prevExpression;
+    struct Expression * expression, * prevExpression, * traverser;
+    flag = 0;
     //Ask user for total number of terms.
     printf("How many number of terms your expression has?: ");
     scanf("%d", &numberOfTerms);
@@ -97,8 +98,10 @@ int readArithmaticExpression(){
                 scanf(" %c", &operator);
             } while(operator != '+' && operator != '-' && operator != '*' && operator != '/');
             //Create new node for recently read operator.
-            expression = (struct Expression *) malloc(sizeof(struct Expression *));
+            expression = (struct Expression *) malloc(sizeof(struct Expression));
             expression -> operator = operator;
+            expression -> rightSubTree = NULL;
+            expression -> isRightSubTree = 0;
             //If there are already some nodes in tree.
             if(i > 0){
                 //Fetch previous operator from previous node.
@@ -112,70 +115,90 @@ int readArithmaticExpression(){
                                 //prev -> + & curr -> - then new node can be either parent or right child of previous node
                                 //prev -> + & curr -> + then new node can be either parent or right child of previous node
                                 //prev -> +, - & curr -> *, / then new node will become right child of previous node 
+                                traverser = prevExpression;
+                                while(traverser -> isRightSubTree == 1 && (traverser -> rightSubTree -> operator == '+' || traverser -> rightSubTree -> operator == '-')){
+                                    traverser = traverser -> rightSubTree;
+                                }
                                 if(operator == '+' || operator == '-'){
-                                    if(prevOperator == '+' && prevExpression -> isLeftSubTree == 1){
-                                        prevExpression -> rightSubTree = expression;
-                                        prevExpression -> isRightSubTree = 1;
-                                        expression -> leftOperand = operand;
-                                        expression -> isLeftSubTree = 0;
+                                    if(traverser -> operator == '+' && traverser -> isLeftSubTree == 1){
+                                        if(traverser -> isRightSubTree == 0){
+                                            expression -> leftOperand = operand;
+                                            expression -> isLeftSubTree = 0; 
+                                        } else {
+                                            expression -> leftSubTree = traverser -> rightSubTree;
+                                            expression -> isLeftSubTree = 1;
+                                            expression -> rightOperand = operand;
+                                            expression -> isRightSubTree = 0;
+                                        }
+                                        traverser -> rightSubTree = expression;
+                                        traverser -> isRightSubTree = 1;
                                     } else {
-                                        prevExpression -> rightOperand = operand;
-                                        prevExpression -> isRightSubTree = 0;
+                                        if(traverser -> isRightSubTree == 0){
+                                            traverser -> rightOperand = operand;
+                                            traverser -> isRightSubTree = 0;
+                                        } else {
+                                            traverser -> rightSubTree -> rightOperand = operand;
+                                            traverser -> rightSubTree -> isRightSubTree = 0;
+                                        }
                                         expression -> leftSubTree = prevExpression;
                                         expression -> isLeftSubTree = 1;
-                                        rootNode = expression;
+                                        * rootNode = expression;
+                                        flag = 0;
                                     }
                                 } else {
-                                    expression -> leftOperand = operand;
-                                    expression -> isLeftSubTree = 0;
-                                    prevExpression -> rightSubTree = expression;
-                                    prevExpression -> isRightSubTree = 1;
+                                    if(traverser -> isRightSubTree == 0){
+                                        expression -> leftOperand = operand;
+                                        expression -> isLeftSubTree = 0;
+                                        traverser -> rightSubTree = expression;
+                                        traverser -> isRightSubTree = 1;
+                                    } else {
+                                        expression -> leftSubTree = traverser -> rightSubTree;
+                                        expression -> isLeftSubTree = 1;
+                                        traverser -> rightSubTree -> rightOperand = operand;
+                                        traverser -> rightSubTree -> isRightSubTree = 0;
+                                        traverser -> rightSubTree = expression;
+                                    }
+                                    flag = 1;
                                 }
                                 break;
                     case '*':
                     case '/':   //prev -> *, / & curr -> +, - then new node will become parent of previous node
                                 //prev -> *, / & curr -> *, / then new node can be either parent or right child of previous node
-                                if(operator == '+' || operator == '-'){
-                                    prevExpression -> rightOperand = operand;
-                                    prevExpression -> isRightSubTree = 0;
-                                    expression -> leftSubTree = prevExpression;
-                                    expression -> isLeftSubTree = 1;
-                                    rootNode = expression;
-                                } else {
-                                    if(prevExpression -> isLeftSubTree == 1){
-                                        prevExpression -> rightSubTree = expression;
-                                        prevExpression -> isRightSubTree = 1;
-                                        expression -> leftOperand = operand;
-                                        expression -> isLeftSubTree = 0;
-                                    } else {
-                                        prevExpression -> rightOperand = operand;
-                                        prevExpression -> isRightSubTree = 0;
-                                        expression -> leftSubTree = prevExpression;
-                                        expression -> isLeftSubTree = 1;
-                                        rootNode = expression;
-                                    }
-                                }
+                                prevExpression -> rightOperand = operand;
+                                prevExpression -> isRightSubTree = 0;
+                                expression -> leftSubTree = prevExpression;
+                                expression -> isLeftSubTree = 1;
+                                * rootNode = expression;
                                 break;
                 }
             } else {
                 //If it is the first node then enter the operand left to its operator and mark it as root node of tree.
                 expression -> leftOperand = operand;
                 expression -> isLeftSubTree = 0;
-                rootNode = expression;
+                * rootNode = expression;
             }
             //curr node will be previous node for next iteration.
-            prevExpression = expression;
+            prevExpression = * rootNode;
         } else {
             //If it is last term then enter operand right to previous operator.
-            prevExpression -> rightOperand = operand;
-            prevExpression -> isRightSubTree = 0;
+            traverser = prevExpression;
+            while(traverser -> isRightSubTree == 1 && (traverser -> rightSubTree -> operator == '+' || traverser -> rightSubTree -> operator == '-')){
+                traverser = traverser -> rightSubTree;
+            }
+            if(traverser -> isRightSubTree == 0){
+                traverser -> rightOperand = operand;
+                traverser -> isRightSubTree = 0;
+            } else {
+                traverser -> rightSubTree -> rightOperand = operand;
+                traverser -> rightSubTree -> isRightSubTree = 0;
+            }
         }
     }
     return 0;
 }
 
 int main(){
-    readArithmaticExpression();
+    readArithmaticExpression(&rootNode);
     inorderTraversal(rootNode);
     printf("\t = \t");
     printf("%d\n", postorderTraversal(rootNode));

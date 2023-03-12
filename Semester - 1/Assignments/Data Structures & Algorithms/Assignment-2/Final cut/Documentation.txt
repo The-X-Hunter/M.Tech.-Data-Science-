@@ -527,70 +527,93 @@ Write a program to evaluate an arithmatic expression using binary tree
             Worst case -> O(n)
         Algorithm:
             readArithmaticExpression(){
+                flag = 0
                 read(numberOfTerms) //This line indicate user input
-                for(i = 0; i < numberOfTerms; i++){
+                for(i = 1 to numberOfTerms){
                     read(operand) //This line indicate user input
                     if(i + 1 < numberOfTerms){
                         do {
                             read(operator) //This line indicate user input
                         } while(operator != '+' && operator != '-' && operator != '*' && operator != '/')
                         expression -> operator = operator
+                        expression -> rightSubTree = NULL
+                        expression -> isRightSubTree = 0
                         if(i > 0){
                             prevOperator = prevExpression -> operator
                             switch(prevOperator){
                                 case '+':   
-                                case '-':   if(operator == '+' || operator == '-'){
-                                                if(prevOperator == '+' && prevExpression -> isLeftSubTree == 1){
-                                                    prevExpression -> rightSubTree = expression
-                                                    prevExpression -> isRightSubTree = 1
-                                                    expression -> leftOperand = operand
-                                                    expression -> isLeftSubTree = 0
+                                case '-':   traverser = prevExpression
+                                            while(traverser -> isRightSubTree == 1 && (traverser -> rightSubTree -> operator == '+' || traverser -> rightSubTree -> operator == '-')){
+                                                traverser = traverser -> rightSubTree
+                                            }
+                                            if(operator == '+' || operator == '-'){
+                                                if(traverser -> operator == '+' && traverser -> isLeftSubTree == 1){
+                                                    if(traverser -> isRightSubTree == 0){
+                                                        expression -> leftOperand = operand
+                                                        expression -> isLeftSubTree = 0
+                                                    } else {
+                                                        expression -> leftSubTree = traverser -> rightSubTree
+                                                        expression -> isLeftSubTree = 1
+                                                        expression -> rightOperand = operand
+                                                        expression -> isRightSubTree = 0
+                                                    }
+                                                    traverser -> rightSubTree = expression
+                                                    traverser -> isRightSubTree = 1
                                                 } else {
-                                                    prevExpression -> rightOperand = operand
-                                                    prevExpression -> isRightSubTree = 0
+                                                    if(traverser -> isRightSubTree == 0){
+                                                        traverser -> rightOperand = operand
+                                                        traverser -> isRightSubTree = 0
+                                                    } else {
+                                                        traverser -> rightSubTree -> rightOperand = operand
+                                                        traverser -> rightSubTree -> isRightSubTree = 0
+                                                    }
                                                     expression -> leftSubTree = prevExpression
                                                     expression -> isLeftSubTree = 1
-                                                    rootNode = expression
+                                                    * rootNode = expression
+                                                    flag = 0
                                                 }
                                             } else {
-                                                expression -> leftOperand = operand
-                                                expression -> isLeftSubTree = 0
-                                                prevExpression -> rightSubTree = expression
-                                                prevExpression -> isRightSubTree = 1
+                                                if(traverser -> isRightSubTree == 0){
+                                                    expression -> leftOperand = operand
+                                                    expression -> isLeftSubTree = 0
+                                                    traverser -> rightSubTree = expression
+                                                    traverser -> isRightSubTree = 1
+                                                } else {
+                                                    expression -> leftSubTree = traverser -> rightSubTree
+                                                    expression -> isLeftSubTree = 1
+                                                    traverser -> rightSubTree -> rightOperand = operand
+                                                    traverser -> rightSubTree -> isRightSubTree = 0
+                                                    traverser -> rightSubTree = expression
+                                                }
+                                                flag = 1
                                             }
-                                            break;
+                                            break
                                 case '*':
-                                case '/':   if(operator == '+' || operator == '-'){
-                                                prevExpression -> rightOperand = operand
-                                                prevExpression -> isRightSubTree = 0
-                                                expression -> leftSubTree = prevExpression
-                                                expression -> isLeftSubTree = 1
-                                                rootNode = expression
-                                            } else {
-                                                if(prevExpression -> isLeftSubTree == 1){
-                                                    prevExpression -> rightSubTree = expression
-                                                    prevExpression -> isRightSubTree = 1
-                                                    expression -> leftOperand = operand
-                                                    expression -> isLeftSubTree = 0
-                                                } else {
-                                                    prevExpression -> rightOperand = operand
-                                                    prevExpression -> isRightSubTree = 0
-                                                    expression -> leftSubTree = prevExpression
-                                                    expression -> isLeftSubTree = 1
-                                                    rootNode = expression
-                                                }
-                                            }
-                                            break;
-                            }
-                        } else {
-                            expression -> leftOperand = operand
-                            expression -> isLeftSubTree = 0
-                            rootNode = expression
+                                case '/':   prevExpression -> rightOperand = operand
+                                            prevExpression -> isRightSubTree = 0
+                                            expression -> leftSubTree = prevExpression
+                                            expression -> isLeftSubTree = 1
+                                            * rootNode = expression
+                                            break
                         }
-                    prevExpression = expression
+                    } else {
+                        expression -> leftOperand = operand
+                        expression -> isLeftSubTree = 0
+                        * rootNode = expression
+                    }
+                    prevExpression = * rootNode
                 } else {
-                    prevExpression -> rightOperand = operand
-                    prevExpression -> isRightSubTree = 0
+                    traverser = prevExpression
+                    while(traverser -> isRightSubTree == 1 && (traverser -> rightSubTree -> operator == '+' || traverser -> rightSubTree -> operator == '-')){
+                        traverser = traverser -> rightSubTree
+                    }
+                    if(traverser -> isRightSubTree == 0){
+                        traverser -> rightOperand = operand
+                        traverser -> isRightSubTree = 0
+                    } else {
+                        traverser -> rightSubTree -> rightOperand = operand
+                        traverser -> rightSubTree -> isRightSubTree = 0
+                    }
                 }
             }
         }
